@@ -8,7 +8,6 @@ __pycache__/
 venv/
 env/
 
-*.ipynb
 .ipynb_checkpoints/
 
 .DS_Store
