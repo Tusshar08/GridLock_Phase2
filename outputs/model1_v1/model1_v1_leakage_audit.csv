@@ -1,0 +1,5 @@
+feature,reasons,binary_rule_accuracy,binary_rule_direction,auc_strength,correlation,non_null_rows,unique_values
+has_end_location,name_pattern|near_perfect_binary_rule|near_perfect_auc|near_perfect_correlation,0.9984093967943227,direct,0.9991329865279446,0.9896619453212845,8173,2
+end_point_missing_or_zero,name_pattern|near_perfect_binary_rule|near_perfect_auc|near_perfect_correlation,0.9984093967943227,inverted,0.9991329865279446,-0.9896619453212845,8173,2
+has_route_span,name_pattern,0.9387005995350545,direct,0.6301108214488951,0.4924220501245956,8173,2
+route_distance_km,name_pattern,,,0.5054398485232356,0.05264765470991148,8173,638
