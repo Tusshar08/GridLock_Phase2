@@ -1,0 +1,516 @@
+feature,gain,weight,cover
+has_end_location,890.4562377929688,98.0,473.7159729003906
+end_point_missing_or_zero,217.3652801513672,5.0,203.53237915039062
+text_length,14.126730918884277,71.0,109.90731811523438
+description_char_length,11.492895126342773,30.0,51.04475021362305
+has_blocked_word,10.650470733642578,1.0,23.342933654785156
+route_distance_km,9.153620719909668,12.0,85.80341339111328
+day_cos,4.114638328552246,2.0,6.778164386749268
+report_lag_hours_clipped,3.607889413833618,3.0,4.358435153961182
+past_count_police_station,2.209608554840088,20.0,4.506474494934082
+past_count_event_cause_corridor,2.0707831382751465,2.0,2.8549389839172363
+start_hour,2.0093722343444824,2.0,3.100768804550171
+start_dayofweek,1.9171262979507446,15.0,4.037042140960693
+past_closure_rate_event_cause_corridor,1.86589515209198,38.0,6.4490509033203125
+start_weekofyear,1.8460063934326172,8.0,3.9598498344421387
+past_count_location_grid,1.7057230472564697,16.0,9.035589218139648
+longitude,1.6841247081756592,27.0,6.266178131103516
+start_day_name_thursday,1.6333569288253784,21.0,15.59478759765625
+report_lag_minutes_clipped,1.5289242267608643,33.0,28.595233917236328
+past_closure_rate_junction,1.4929758310317993,23.0,4.515410900115967
+past_count_junction,1.4827203750610352,17.0,7.766605854034424
+past_closure_rate_police_station,1.4733341932296753,18.0,5.8250813484191895
+description_word_count,1.4728939533233643,4.0,16.609689712524414
+corridor_grouped_orr north 1,1.434970498085022,3.0,50.91105270385742
+veh_type_grouped_bmtc_bus,1.427686333656311,1.0,6.708251953125
+past_closure_rate_zone,1.1910983324050903,14.0,11.19310188293457
+corridor_grouped_non-corridor,1.0981874465942383,1.0,2.3038547039031982
+distance_to_city_center_km,1.0828546285629272,9.0,3.7941524982452393
+past_count_zone,1.0417606830596924,13.0,9.859099388122559
+past_closure_rate_location_grid,0.9894126057624817,4.0,3.7254810333251953
+latitude,0.9154176115989685,25.0,4.447342395782471
+event_cause_corridor_grouped_accident_non-corridor,0.9106207489967346,25.0,206.71868896484375
+past_closure_rate_corridor,0.9004220366477966,19.0,6.661993503570557
+corridor_peak_interaction_grouped_bellary road 1_night,0.8637542724609375,1.0,37.44282913208008
+past_closure_rate_event_cause,0.8504837155342102,16.0,10.110915184020996
+zone_cause_interaction_grouped_north zone 1_construction,0.8041877746582031,1.0,36.42970275878906
+corridor_grouped_old airport road,0.7833328247070312,1.0,121.99919891357422
+event_cause_corridor_grouped_pot_holes_non-corridor,0.770660400390625,1.0,67.51121520996094
+corridor_grouped_old madras road,0.7552359700202942,6.0,39.06669998168945
+cause_peak_interaction_grouped_accident_off_peak,0.72528076171875,1.0,397.09197998046875
+event_cause_corridor_grouped_vehicle_breakdown_old madras road,0.7156984806060791,18.0,95.10704040527344
+police_station_grouped_jayanagara,0.7112960815429688,1.0,104.96650695800781
+is_peak_hour,0.7015814781188965,4.0,3.2070982456207275
+corridor_cause_interaction_grouped_non-corridor_accident,0.6917915344238281,2.0,296.1685791015625
+zone_cause_interaction_grouped_unknown_accident,0.6700172424316406,1.0,21.350547790527344
+past_count_event_cause,0.6660906076431274,4.0,43.01115798950195
+corridor_peak_interaction_grouped_non-corridor_off_peak,0.6329174041748047,1.0,12.467729568481445
+cause_peak_interaction_grouped_pot_holes_night,0.6240857243537903,6.0,178.7598419189453
+is_accident_event,0.5987958908081055,1.0,13.388099670410156
+corridor_peak_interaction_grouped_orr north 1_off_peak,0.5737631916999817,7.0,399.41973876953125
+zone_cause_interaction_grouped_central zone 1_vehicle_breakdown,0.5567874908447266,2.0,15.491933822631836
+hour_sin,0.5346907377243042,2.0,9.723365783691406
+corridor_cause_interaction_grouped_old madras road_vehicle_breakdown,0.528778076171875,4.0,192.55426025390625
+past_count_corridor,0.492160439491272,3.0,21.706689834594727
+cause_peak_interaction_grouped_water_logging_morning_peak,0.4521767199039459,17.0,357.9619140625
+corridor_cause_interaction_grouped_orr north 1_vehicle_breakdown,0.41937255859375,2.0,213.7755126953125
+police_station_grouped_hebbala,0.400421142578125,1.0,86.41903686523438
+cause_peak_interaction_grouped_vehicle_breakdown_night,0.3579978942871094,1.0,3.925410032272339
+junction_grouped_bigbazaarjunction(oldmadrasrd),0.33401185274124146,15.0,408.5005187988281
+police_station_grouped_vijayanagara,0.29400634765625,1.0,321.7956237792969
+event_cause_corridor_grouped_vehicle_breakdown_orr north 1,0.2816314697265625,10.0,260.30120849609375
+cause_peak_interaction_grouped_accident_morning_peak,0.23214110732078552,5.0,568.6553344726562
+day_sin,0.18518027663230896,1.0,2.26003098487854
+has_location_hint_word,0.0,0.0,0.0
+has_emergency_word,0.0,0.0,0.0
+is_planned_event,0.0,0.0,0.0
+is_public_or_vip_event,0.0,0.0,0.0
+is_breakdown_event,0.0,0.0,0.0
+is_weather_or_visibility_event,0.0,0.0,0.0
+is_road_condition_event,0.0,0.0,0.0
+has_vehicle_type,0.0,0.0,0.0
+is_truck,0.0,0.0,0.0
+is_bus,0.0,0.0,0.0
+is_two_wheeler,0.0,0.0,0.0
+is_heavy_vehicle,0.0,0.0,0.0
+has_cargo_material,0.0,0.0,0.0
+age_of_truck,0.0,0.0,0.0
+truck_age_missing,0.0,0.0,0.0
+event_type_planned,0.0,0.0,0.0
+event_type_unplanned,0.0,0.0,0.0
+event_cause_grouped_accident,0.0,0.0,0.0
+event_cause_grouped_congestion,0.0,0.0,0.0
+event_cause_grouped_construction,0.0,0.0,0.0
+event_cause_grouped_other_rare,0.0,0.0,0.0
+event_cause_grouped_others,0.0,0.0,0.0
+event_cause_grouped_pot_holes,0.0,0.0,0.0
+event_cause_grouped_procession,0.0,0.0,0.0
+event_cause_grouped_public_event,0.0,0.0,0.0
+event_cause_grouped_road_conditions,0.0,0.0,0.0
+event_cause_grouped_tree_fall,0.0,0.0,0.0
+event_cause_grouped_vehicle_breakdown,0.0,0.0,0.0
+event_cause_grouped_vip_movement,0.0,0.0,0.0
+event_cause_grouped_water_logging,0.0,0.0,0.0
+direction_grouped_other_rare,0.0,0.0,0.0
+veh_type_grouped_auto,0.0,0.0,0.0
+veh_type_grouped_heavy_vehicle,0.0,0.0,0.0
+veh_type_grouped_ksrtc_bus,0.0,0.0,0.0
+veh_type_grouped_lcv,0.0,0.0,0.0
+veh_type_grouped_other_rare,0.0,0.0,0.0
+veh_type_grouped_others,0.0,0.0,0.0
+veh_type_grouped_private_bus,0.0,0.0,0.0
+veh_type_grouped_private_car,0.0,0.0,0.0
+veh_type_grouped_taxi,0.0,0.0,0.0
+veh_type_grouped_truck,0.0,0.0,0.0
+corridor_grouped_airport new south road,0.0,0.0,0.0
+corridor_grouped_bannerghata road,0.0,0.0,0.0
+corridor_grouped_bellary road 1,0.0,0.0,0.0
+corridor_grouped_bellary road 2,0.0,0.0,0.0
+corridor_grouped_cbd 1,0.0,0.0,0.0
+corridor_grouped_cbd 2,0.0,0.0,0.0
+corridor_grouped_hennur main road,0.0,0.0,0.0
+corridor_grouped_hosur road,0.0,0.0,0.0
+corridor_grouped_irr(thanisandra road),0.0,0.0,0.0
+corridor_grouped_magadi road,0.0,0.0,0.0
+corridor_grouped_mysore road,0.0,0.0,0.0
+corridor_grouped_orr east 1,0.0,0.0,0.0
+corridor_grouped_orr east 2,0.0,0.0,0.0
+corridor_grouped_orr north 2,0.0,0.0,0.0
+corridor_grouped_orr west 1,0.0,0.0,0.0
+corridor_grouped_other_rare,0.0,0.0,0.0
+corridor_grouped_tumkur road,0.0,0.0,0.0
+corridor_grouped_varthur road,0.0,0.0,0.0
+corridor_grouped_west of chord road,0.0,0.0,0.0
+cargo_material_grouped_goods,0.0,0.0,0.0
+cargo_material_grouped_goods carried,0.0,0.0,0.0
+cargo_material_grouped_other_rare,0.0,0.0,0.0
+reason_breakdown_grouped_other_rare,0.0,0.0,0.0
+reason_breakdown_grouped_starting problem,0.0,0.0,0.0
+police_station_grouped_adugodi,0.0,0.0,0.0
+police_station_grouped_ashok nagar,0.0,0.0,0.0
+police_station_grouped_banashankari,0.0,0.0,0.0
+police_station_grouped_banaswadi,0.0,0.0,0.0
+police_station_grouped_basavanagudi,0.0,0.0,0.0
+police_station_grouped_bellandur,0.0,0.0,0.0
+police_station_grouped_byatarayanapura,0.0,0.0,0.0
+police_station_grouped_chamarajpet,0.0,0.0,0.0
+police_station_grouped_chikkabanavara,0.0,0.0,0.0
+police_station_grouped_chikkajala,0.0,0.0,0.0
+police_station_grouped_city market,0.0,0.0,0.0
+police_station_grouped_cubbon park,0.0,0.0,0.0
+police_station_grouped_devanahalli airport,0.0,0.0,0.0
+police_station_grouped_electronic city,0.0,0.0,0.0
+police_station_grouped_hal old airport,0.0,0.0,0.0
+police_station_grouped_halasur,0.0,0.0,0.0
+police_station_grouped_halasuru gate,0.0,0.0,0.0
+police_station_grouped_hennuru,0.0,0.0,0.0
+police_station_grouped_high ground,0.0,0.0,0.0
+police_station_grouped_hsr layout,0.0,0.0,0.0
+police_station_grouped_hulimavu,0.0,0.0,0.0
+police_station_grouped_j.p. nagar,0.0,0.0,0.0
+police_station_grouped_jalahalli,0.0,0.0,0.0
+police_station_grouped_jeevanbheemanagar,0.0,0.0,0.0
+police_station_grouped_jnanabharathi,0.0,0.0,0.0
+police_station_grouped_k.g. halli,0.0,0.0,0.0
+police_station_grouped_k.r. pura,0.0,0.0,0.0
+police_station_grouped_k.s. layout,0.0,0.0,0.0
+police_station_grouped_kamakshipalya,0.0,0.0,0.0
+police_station_grouped_kengeri,0.0,0.0,0.0
+police_station_grouped_kodigehalli,0.0,0.0,0.0
+police_station_grouped_madiwala,0.0,0.0,0.0
+police_station_grouped_magadi road,0.0,0.0,0.0
+police_station_grouped_mahadevapura,0.0,0.0,0.0
+police_station_grouped_malleshwaram,0.0,0.0,0.0
+police_station_grouped_mico layout,0.0,0.0,0.0
+police_station_grouped_no police station,0.0,0.0,0.0
+police_station_grouped_peenya,0.0,0.0,0.0
+police_station_grouped_pulikeshinagar(f.town),0.0,0.0,0.0
+police_station_grouped_r.t. nagar,0.0,0.0,0.0
+police_station_grouped_rajajinagar,0.0,0.0,0.0
+police_station_grouped_sadashivanagar,0.0,0.0,0.0
+police_station_grouped_sheshadripuram,0.0,0.0,0.0
+police_station_grouped_shivajinagar,0.0,0.0,0.0
+police_station_grouped_thalagattapura,0.0,0.0,0.0
+police_station_grouped_upparpet,0.0,0.0,0.0
+police_station_grouped_v.v.puram (c.pet),0.0,0.0,0.0
+police_station_grouped_whitefield,0.0,0.0,0.0
+police_station_grouped_wilson garden,0.0,0.0,0.0
+police_station_grouped_yelahanka,0.0,0.0,0.0
+police_station_grouped_yeshwanthpura,0.0,0.0,0.0
+zone_grouped_central zone 1,0.0,0.0,0.0
+zone_grouped_central zone 2,0.0,0.0,0.0
+zone_grouped_east zone 1,0.0,0.0,0.0
+zone_grouped_east zone 2,0.0,0.0,0.0
+zone_grouped_north zone 1,0.0,0.0,0.0
+zone_grouped_north zone 2,0.0,0.0,0.0
+zone_grouped_other_rare,0.0,0.0,0.0
+zone_grouped_south zone 1,0.0,0.0,0.0
+zone_grouped_south zone 2,0.0,0.0,0.0
+zone_grouped_west zone 1,0.0,0.0,0.0
+zone_grouped_west zone 2,0.0,0.0,0.0
+junction_grouped_ayyappatemplejunc,0.0,0.0,0.0
+junction_grouped_bagalurcrossjunc,0.0,0.0,0.0
+junction_grouped_bel circle,0.0,0.0,0.0
+junction_grouped_bommanahalli,0.0,0.0,0.0
+junction_grouped_cmp gatejunc,0.0,0.0,0.0
+junction_grouped_devasandra(k r puram),0.0,0.0,0.0
+junction_grouped_gokuldasimagesjunc,0.0,0.0,0.0
+junction_grouped_goruguntepalyajunc,0.0,0.0,0.0
+junction_grouped_hebbalflyoverjunc,0.0,0.0,0.0
+junction_grouped_hesaraghattajunction,0.0,0.0,0.0
+junction_grouped_jalahallicross(sm circle),0.0,0.0,0.0
+junction_grouped_k r circle,0.0,0.0,0.0
+junction_grouped_khodayscircle(dv urscircle),0.0,0.0,0.0
+junction_grouped_kimco junction,0.0,0.0,0.0
+junction_grouped_koramangalawatertankjunc,0.0,0.0,0.0
+junction_grouped_leprosyhospitaljunc,0.0,0.0,0.0
+junction_grouped_mekhricircle,0.0,0.0,0.0
+junction_grouped_nagavara-orr junction,0.0,0.0,0.0
+junction_grouped_other_rare,0.0,0.0,0.0
+junction_grouped_policecornerjunc,0.0,0.0,0.0
+junction_grouped_rajeshwarijunc,0.0,0.0,0.0
+junction_grouped_santhecircle,0.0,0.0,0.0
+junction_grouped_sattelitebusstandjunc,0.0,0.0,0.0
+junction_grouped_silkboardjunc,0.0,0.0,0.0
+junction_grouped_srs peenya junc,0.0,0.0,0.0
+junction_grouped_toll gate mysore road,0.0,0.0,0.0
+junction_grouped_townhalljunction,0.0,0.0,0.0
+"junction_grouped_veerannapalyajunction(bel,ho)",0.0,0.0,0.0
+junction_grouped_yelhankacircle,0.0,0.0,0.0
+junction_grouped_yeshwanthpuracircle,0.0,0.0,0.0
+location_grid_grouped_12.919_77.589,0.0,0.0,0.0
+location_grid_grouped_12.928_77.621,0.0,0.0,0.0
+location_grid_grouped_12.931_77.687,0.0,0.0,0.0
+location_grid_grouped_12.953_77.542,0.0,0.0,0.0
+location_grid_grouped_12.957_77.552,0.0,0.0,0.0
+location_grid_grouped_12.969_77.701,0.0,0.0,0.0
+location_grid_grouped_12.97_77.701,0.0,0.0,0.0
+location_grid_grouped_12.999_77.584,0.0,0.0,0.0
+location_grid_grouped_13.014_77.584,0.0,0.0,0.0
+location_grid_grouped_13.038_77.626,0.0,0.0,0.0
+location_grid_grouped_13.045_77.583,0.0,0.0,0.0
+location_grid_grouped_other_rare,0.0,0.0,0.0
+truck_age_band_grouped_mid,0.0,0.0,0.0
+truck_age_band_grouped_new,0.0,0.0,0.0
+truck_age_band_grouped_old,0.0,0.0,0.0
+truck_age_band_grouped_other_rare,0.0,0.0,0.0
+truck_age_band_grouped_very_old,0.0,0.0,0.0
+event_cause_corridor_grouped_accident_bellary road 1,0.0,0.0,0.0
+event_cause_corridor_grouped_accident_bellary road 2,0.0,0.0,0.0
+event_cause_corridor_grouped_congestion_hennur main road,0.0,0.0,0.0
+event_cause_corridor_grouped_congestion_non-corridor,0.0,0.0,0.0
+event_cause_corridor_grouped_congestion_orr north 2,0.0,0.0,0.0
+event_cause_corridor_grouped_construction_airport new south road,0.0,0.0,0.0
+event_cause_corridor_grouped_construction_non-corridor,0.0,0.0,0.0
+event_cause_corridor_grouped_construction_orr east 2,0.0,0.0,0.0
+event_cause_corridor_grouped_construction_orr north 1,0.0,0.0,0.0
+event_cause_corridor_grouped_other_rare,0.0,0.0,0.0
+event_cause_corridor_grouped_others_bellary road 1,0.0,0.0,0.0
+event_cause_corridor_grouped_others_bellary road 2,0.0,0.0,0.0
+event_cause_corridor_grouped_others_magadi road,0.0,0.0,0.0
+event_cause_corridor_grouped_others_mysore road,0.0,0.0,0.0
+event_cause_corridor_grouped_others_non-corridor,0.0,0.0,0.0
+event_cause_corridor_grouped_others_orr north 1,0.0,0.0,0.0
+event_cause_corridor_grouped_others_orr north 2,0.0,0.0,0.0
+event_cause_corridor_grouped_others_tumkur road,0.0,0.0,0.0
+event_cause_corridor_grouped_pot_holes_bannerghata road,0.0,0.0,0.0
+event_cause_corridor_grouped_pot_holes_hosur road,0.0,0.0,0.0
+event_cause_corridor_grouped_pot_holes_irr(thanisandra road),0.0,0.0,0.0
+event_cause_corridor_grouped_pot_holes_old madras road,0.0,0.0,0.0
+event_cause_corridor_grouped_pot_holes_orr east 1,0.0,0.0,0.0
+event_cause_corridor_grouped_procession_non-corridor,0.0,0.0,0.0
+event_cause_corridor_grouped_public_event_non-corridor,0.0,0.0,0.0
+event_cause_corridor_grouped_road_conditions_non-corridor,0.0,0.0,0.0
+event_cause_corridor_grouped_tree_fall_non-corridor,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_airport new south road,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_bannerghata road,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_bellary road 1,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_bellary road 2,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_cbd 2,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_hennur main road,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_hosur road,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_irr(thanisandra road),0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_magadi road,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_mysore road,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_non-corridor,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_old airport road,0.0,0.0,0.0
+valid_start_coordinate,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_orr east 1,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_orr east 2,0.0,0.0,0.0
+has_start_location,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_orr north 2,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_orr west 1,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_tumkur road,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_varthur road,0.0,0.0,0.0
+event_cause_corridor_grouped_vehicle_breakdown_west of chord road,0.0,0.0,0.0
+event_cause_corridor_grouped_water_logging_bannerghata road,0.0,0.0,0.0
+event_cause_corridor_grouped_water_logging_bellary road 1,0.0,0.0,0.0
+event_cause_corridor_grouped_water_logging_mysore road,0.0,0.0,0.0
+event_cause_corridor_grouped_water_logging_non-corridor,0.0,0.0,0.0
+event_cause_corridor_grouped_water_logging_orr east 1,0.0,0.0,0.0
+peak_period_evening_peak,0.0,0.0,0.0
+peak_period_morning_peak,0.0,0.0,0.0
+peak_period_night,0.0,0.0,0.0
+peak_period_off_peak,0.0,0.0,0.0
+has_route_span,0.0,0.0,0.0
+cause_peak_interaction_grouped_accident_night,0.0,0.0,0.0
+is_weekend,0.0,0.0,0.0
+cause_peak_interaction_grouped_congestion_morning_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_congestion_night,0.0,0.0,0.0
+cause_peak_interaction_grouped_congestion_off_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_construction_evening_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_construction_morning_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_construction_night,0.0,0.0,0.0
+cause_peak_interaction_grouped_construction_off_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_other_rare,0.0,0.0,0.0
+cause_peak_interaction_grouped_others_morning_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_others_night,0.0,0.0,0.0
+cause_peak_interaction_grouped_others_off_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_pot_holes_morning_peak,0.0,0.0,0.0
+is_night,0.0,0.0,0.0
+cause_peak_interaction_grouped_pot_holes_off_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_procession_morning_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_procession_night,0.0,0.0,0.0
+cause_peak_interaction_grouped_procession_off_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_public_event_off_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_road_conditions_morning_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_road_conditions_night,0.0,0.0,0.0
+cause_peak_interaction_grouped_road_conditions_off_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_tree_fall_morning_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_tree_fall_night,0.0,0.0,0.0
+cause_peak_interaction_grouped_tree_fall_off_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_vehicle_breakdown_evening_peak,0.0,0.0,0.0
+cause_peak_interaction_grouped_vehicle_breakdown_morning_peak,0.0,0.0,0.0
+hour_cos,0.0,0.0,0.0
+cause_peak_interaction_grouped_vehicle_breakdown_off_peak,0.0,0.0,0.0
+report_lag_is_negative,0.0,0.0,0.0
+cause_peak_interaction_grouped_water_logging_night,0.0,0.0,0.0
+cause_peak_interaction_grouped_water_logging_off_peak,0.0,0.0,0.0
+zone_cause_interaction_grouped_central zone 1_construction,0.0,0.0,0.0
+zone_cause_interaction_grouped_central zone 1_others,0.0,0.0,0.0
+reporting_delay_minutes,0.0,0.0,0.0
+zone_cause_interaction_grouped_central zone 2_construction,0.0,0.0,0.0
+zone_cause_interaction_grouped_central zone 2_others,0.0,0.0,0.0
+zone_cause_interaction_grouped_central zone 2_pot_holes,0.0,0.0,0.0
+zone_cause_interaction_grouped_central zone 2_vehicle_breakdown,0.0,0.0,0.0
+zone_cause_interaction_grouped_east zone 1_construction,0.0,0.0,0.0
+zone_cause_interaction_grouped_east zone 1_vehicle_breakdown,0.0,0.0,0.0
+zone_cause_interaction_grouped_east zone 2_construction,0.0,0.0,0.0
+zone_cause_interaction_grouped_east zone 2_others,0.0,0.0,0.0
+zone_cause_interaction_grouped_east zone 2_vehicle_breakdown,0.0,0.0,0.0
+zone_cause_interaction_grouped_north zone 1_accident,0.0,0.0,0.0
+has_non_ascii_text,0.0,0.0,0.0
+zone_cause_interaction_grouped_north zone 1_others,0.0,0.0,0.0
+zone_cause_interaction_grouped_north zone 1_vehicle_breakdown,0.0,0.0,0.0
+zone_cause_interaction_grouped_north zone 2_accident,0.0,0.0,0.0
+zone_cause_interaction_grouped_north zone 2_construction,0.0,0.0,0.0
+zone_cause_interaction_grouped_north zone 2_others,0.0,0.0,0.0
+zone_cause_interaction_grouped_north zone 2_vehicle_breakdown,0.0,0.0,0.0
+zone_cause_interaction_grouped_other_rare,0.0,0.0,0.0
+zone_cause_interaction_grouped_south zone 1_accident,0.0,0.0,0.0
+zone_cause_interaction_grouped_south zone 1_pot_holes,0.0,0.0,0.0
+zone_cause_interaction_grouped_south zone 1_vehicle_breakdown,0.0,0.0,0.0
+zone_cause_interaction_grouped_south zone 2_accident,0.0,0.0,0.0
+zone_cause_interaction_grouped_south zone 2_pot_holes,0.0,0.0,0.0
+zone_cause_interaction_grouped_south zone 2_vehicle_breakdown,0.0,0.0,0.0
+has_kannada_text,0.0,0.0,0.0
+zone_cause_interaction_grouped_unknown_congestion,0.0,0.0,0.0
+zone_cause_interaction_grouped_unknown_construction,0.0,0.0,0.0
+zone_cause_interaction_grouped_unknown_others,0.0,0.0,0.0
+zone_cause_interaction_grouped_unknown_pot_holes,0.0,0.0,0.0
+zone_cause_interaction_grouped_unknown_procession,0.0,0.0,0.0
+zone_cause_interaction_grouped_unknown_public_event,0.0,0.0,0.0
+zone_cause_interaction_grouped_unknown_road_conditions,0.0,0.0,0.0
+zone_cause_interaction_grouped_unknown_tree_fall,0.0,0.0,0.0
+zone_cause_interaction_grouped_unknown_vehicle_breakdown,0.0,0.0,0.0
+zone_cause_interaction_grouped_unknown_water_logging,0.0,0.0,0.0
+zone_cause_interaction_grouped_west zone 1_accident,0.0,0.0,0.0
+zone_cause_interaction_grouped_west zone 1_others,0.0,0.0,0.0
+zone_cause_interaction_grouped_west zone 1_vehicle_breakdown,0.0,0.0,0.0
+zone_cause_interaction_grouped_west zone 2_others,0.0,0.0,0.0
+zone_cause_interaction_grouped_west zone 2_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_airport new south road_construction,0.0,0.0,0.0
+corridor_cause_interaction_grouped_airport new south road_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_bannerghata road_pot_holes,0.0,0.0,0.0
+corridor_cause_interaction_grouped_bannerghata road_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_bannerghata road_water_logging,0.0,0.0,0.0
+corridor_cause_interaction_grouped_bellary road 1_accident,0.0,0.0,0.0
+corridor_cause_interaction_grouped_bellary road 1_others,0.0,0.0,0.0
+corridor_cause_interaction_grouped_bellary road 1_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_bellary road 1_water_logging,0.0,0.0,0.0
+corridor_cause_interaction_grouped_bellary road 2_accident,0.0,0.0,0.0
+corridor_cause_interaction_grouped_bellary road 2_others,0.0,0.0,0.0
+corridor_cause_interaction_grouped_bellary road 2_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_cbd 2_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_hennur main road_congestion,0.0,0.0,0.0
+corridor_cause_interaction_grouped_hennur main road_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_hosur road_pot_holes,0.0,0.0,0.0
+corridor_cause_interaction_grouped_hosur road_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_irr(thanisandra road)_pot_holes,0.0,0.0,0.0
+corridor_cause_interaction_grouped_irr(thanisandra road)_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_magadi road_others,0.0,0.0,0.0
+corridor_cause_interaction_grouped_magadi road_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_mysore road_others,0.0,0.0,0.0
+corridor_cause_interaction_grouped_mysore road_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_mysore road_water_logging,0.0,0.0,0.0
+has_accident_word,0.0,0.0,0.0
+corridor_cause_interaction_grouped_non-corridor_congestion,0.0,0.0,0.0
+corridor_cause_interaction_grouped_non-corridor_construction,0.0,0.0,0.0
+corridor_cause_interaction_grouped_non-corridor_others,0.0,0.0,0.0
+corridor_cause_interaction_grouped_non-corridor_pot_holes,0.0,0.0,0.0
+corridor_cause_interaction_grouped_non-corridor_procession,0.0,0.0,0.0
+corridor_cause_interaction_grouped_non-corridor_public_event,0.0,0.0,0.0
+corridor_cause_interaction_grouped_non-corridor_road_conditions,0.0,0.0,0.0
+corridor_cause_interaction_grouped_non-corridor_tree_fall,0.0,0.0,0.0
+corridor_cause_interaction_grouped_non-corridor_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_non-corridor_water_logging,0.0,0.0,0.0
+corridor_cause_interaction_grouped_old airport road_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_old madras road_pot_holes,0.0,0.0,0.0
+has_breakdown_word,0.0,0.0,0.0
+corridor_cause_interaction_grouped_orr east 1_pot_holes,0.0,0.0,0.0
+corridor_cause_interaction_grouped_orr east 1_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_orr east 1_water_logging,0.0,0.0,0.0
+corridor_cause_interaction_grouped_orr east 2_construction,0.0,0.0,0.0
+corridor_cause_interaction_grouped_orr east 2_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_orr north 1_construction,0.0,0.0,0.0
+corridor_cause_interaction_grouped_orr north 1_others,0.0,0.0,0.0
+has_water_word,0.0,0.0,0.0
+corridor_cause_interaction_grouped_orr north 2_congestion,0.0,0.0,0.0
+corridor_cause_interaction_grouped_orr north 2_others,0.0,0.0,0.0
+corridor_cause_interaction_grouped_orr north 2_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_orr west 1_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_other_rare,0.0,0.0,0.0
+corridor_cause_interaction_grouped_tumkur road_others,0.0,0.0,0.0
+corridor_cause_interaction_grouped_tumkur road_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_varthur road_vehicle_breakdown,0.0,0.0,0.0
+corridor_cause_interaction_grouped_west of chord road_vehicle_breakdown,0.0,0.0,0.0
+cause_heavy_vehicle_interaction_grouped_accident_heavy_0,0.0,0.0,0.0
+cause_heavy_vehicle_interaction_grouped_congestion_heavy_0,0.0,0.0,0.0
+cause_heavy_vehicle_interaction_grouped_construction_heavy_0,0.0,0.0,0.0
+cause_heavy_vehicle_interaction_grouped_other_rare,0.0,0.0,0.0
+cause_heavy_vehicle_interaction_grouped_others_heavy_0,0.0,0.0,0.0
+cause_heavy_vehicle_interaction_grouped_pot_holes_heavy_0,0.0,0.0,0.0
+cause_heavy_vehicle_interaction_grouped_procession_heavy_0,0.0,0.0,0.0
+cause_heavy_vehicle_interaction_grouped_public_event_heavy_0,0.0,0.0,0.0
+cause_heavy_vehicle_interaction_grouped_road_conditions_heavy_0,0.0,0.0,0.0
+cause_heavy_vehicle_interaction_grouped_tree_fall_heavy_0,0.0,0.0,0.0
+cause_heavy_vehicle_interaction_grouped_vehicle_breakdown_heavy_0,0.0,0.0,0.0
+cause_heavy_vehicle_interaction_grouped_vehicle_breakdown_heavy_1,0.0,0.0,0.0
+cause_heavy_vehicle_interaction_grouped_vip_movement_heavy_0,0.0,0.0,0.0
+cause_heavy_vehicle_interaction_grouped_water_logging_heavy_0,0.0,0.0,0.0
+corridor_peak_interaction_grouped_airport new south road_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_airport new south road_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_bannerghata road_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_bannerghata road_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_bannerghata road_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_bellary road 1_morning_peak,0.0,0.0,0.0
+has_construction_word,0.0,0.0,0.0
+corridor_peak_interaction_grouped_bellary road 1_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_bellary road 2_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_bellary road 2_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_bellary road 2_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_cbd 2_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_cbd 2_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_cbd 2_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_hennur main road_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_hennur main road_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_hennur main road_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_hosur road_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_hosur road_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_hosur road_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_irr(thanisandra road)_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_irr(thanisandra road)_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_irr(thanisandra road)_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_magadi road_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_magadi road_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_magadi road_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_mysore road_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_mysore road_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_mysore road_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_non-corridor_evening_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_non-corridor_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_non-corridor_night,0.0,0.0,0.0
+has_event_word,0.0,0.0,0.0
+corridor_peak_interaction_grouped_old airport road_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_old airport road_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_old madras road_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_old madras road_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_old madras road_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_orr east 1_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_orr east 1_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_orr east 1_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_orr east 2_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_orr east 2_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_orr north 1_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_orr north 1_night,0.0,0.0,0.0
+has_jam_word,0.0,0.0,0.0
+corridor_peak_interaction_grouped_orr north 2_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_orr north 2_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_orr north 2_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_orr west 1_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_orr west 1_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_orr west 1_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_other_rare,0.0,0.0,0.0
+corridor_peak_interaction_grouped_tumkur road_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_tumkur road_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_tumkur road_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_varthur road_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_varthur road_off_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_west of chord road_morning_peak,0.0,0.0,0.0
+corridor_peak_interaction_grouped_west of chord road_night,0.0,0.0,0.0
+corridor_peak_interaction_grouped_west of chord road_off_peak,0.0,0.0,0.0
+start_day_name_friday,0.0,0.0,0.0
+start_day_name_monday,0.0,0.0,0.0
+start_day_name_saturday,0.0,0.0,0.0
+start_day_name_sunday,0.0,0.0,0.0
+has_vip_word,0.0,0.0,0.0
+start_day_name_tuesday,0.0,0.0,0.0
+start_day_name_unknown,0.0,0.0,0.0
+start_day_name_wednesday,0.0,0.0,0.0
+start_month_2023-11,0.0,0.0,0.0
+start_month_2023-12,0.0,0.0,0.0
+start_month_2024-01,0.0,0.0,0.0
+start_month_2024-02,0.0,0.0,0.0
+start_month_2024-03,0.0,0.0,0.0
+start_month_2024-04,0.0,0.0,0.0
+start_month_unknown,0.0,0.0,0.0
