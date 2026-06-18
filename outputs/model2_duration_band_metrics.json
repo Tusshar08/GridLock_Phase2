@@ -1,0 +1,17 @@
+{
+  "model_name": "XGBoost",
+  "test_accuracy": 0.5710843373493976,
+  "test_balanced_accuracy": 0.552206325568202,
+  "test_macro_f1": 0.5603577188288438,
+  "test_weighted_f1": 0.5655968767375006,
+  "label_mapping": {
+    "long": 0,
+    "medium": 1,
+    "short": 2
+  },
+  "train_rows": 1934,
+  "validation_rows": 415,
+  "test_rows": 415,
+  "feature_count": 515,
+  "used_model1_probability": false
+}
