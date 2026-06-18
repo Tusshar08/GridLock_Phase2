@@ -1,6 +1,8 @@
 pandas
 numpy
-matplotlib
-seaborn
+scikit-learn>=1.6
+xgboost
+optuna
+joblib
 ipykernel
 jupyter
