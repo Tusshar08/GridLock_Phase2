@@ -1,0 +1,18 @@
+{
+  "model": "RandomForest",
+  "accuracy": 0.6096385542168675,
+  "balanced_accuracy": 0.5710577479937122,
+  "macro_f1": 0.5412644971793079,
+  "weighted_f1": 0.5777973972112436,
+  "selected_model": "RandomForest",
+  "feature_count": 536,
+  "train_rows": 1934,
+  "validation_rows": 415,
+  "test_rows": 415,
+  "used_road_closure_probability": true,
+  "label_mapping": {
+    "long": 0,
+    "medium": 1,
+    "short": 2
+  }
+}

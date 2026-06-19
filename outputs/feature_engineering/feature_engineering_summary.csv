@@ -1,0 +1,10 @@
+metric,value
+road_closure_rows,8173
+road_closure_columns,536
+road_closure_features,535
+duration_rows,2764
+duration_columns,536
+duration_features,535
+duration_short_rows,1581
+duration_medium_rows,903
+duration_long_rows,280

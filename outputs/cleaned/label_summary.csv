@@ -1,0 +1,10 @@
+metric,value
+raw_rows,8173
+raw_columns,46
+cleaned_columns,72
+road_closure_labeled_rows,8173
+road_closure_positive_rows,676
+valid_duration_rows,2764
+duration_short_rows,1581
+duration_medium_rows,903
+duration_long_rows,280

@@ -1,0 +1,131 @@
+{
+  "duration_points": {
+    "short": 8,
+    "medium": 22,
+    "long": 38
+  },
+  "risk_thresholds": {
+    "low": 30,
+    "medium": 55,
+    "high": 75
+  },
+  "cause_overrides": {
+    "vehicle_breakdown": {
+      "risk_bonus": 8,
+      "equipment": [
+        "tow van",
+        "clearance crew"
+      ],
+      "agency": [
+        "traffic police tow unit"
+      ]
+    },
+    "accident": {
+      "risk_bonus": 14,
+      "equipment": [
+        "ambulance standby",
+        "tow van",
+        "crash cones"
+      ],
+      "agency": [
+        "traffic police",
+        "medical emergency support"
+      ]
+    },
+    "tree_fall": {
+      "risk_bonus": 16,
+      "equipment": [
+        "barricades",
+        "tree clearance crew"
+      ],
+      "agency": [
+        "traffic police",
+        "BBMP tree clearance"
+      ]
+    },
+    "water_logging": {
+      "risk_bonus": 14,
+      "equipment": [
+        "barricades",
+        "water pump support"
+      ],
+      "agency": [
+        "traffic police",
+        "BBMP/BWSSB"
+      ]
+    },
+    "public_event": {
+      "risk_bonus": 12,
+      "equipment": [
+        "barricades",
+        "crowd-control ropes",
+        "portable signage"
+      ],
+      "agency": [
+        "traffic police",
+        "local law and order unit"
+      ]
+    },
+    "procession": {
+      "risk_bonus": 12,
+      "equipment": [
+        "barricades",
+        "route marshals",
+        "portable signage"
+      ],
+      "agency": [
+        "traffic police",
+        "local law and order unit"
+      ]
+    },
+    "vip_movement": {
+      "risk_bonus": 18,
+      "equipment": [
+        "barricades",
+        "pilot route signage"
+      ],
+      "agency": [
+        "traffic police",
+        "VIP movement coordination cell"
+      ]
+    },
+    "construction": {
+      "risk_bonus": 8,
+      "equipment": [
+        "barricades",
+        "reflective cones",
+        "warning signage"
+      ],
+      "agency": [
+        "traffic police",
+        "road works contractor"
+      ]
+    }
+  },
+  "base_playbook": {
+    "low": {
+      "manpower": "1 patrol unit",
+      "barricading": "No barricading by default; keep cones ready if lane obstruction grows.",
+      "diversion": "No diversion. Monitor junction approach roads.",
+      "control_room": "Log and monitor."
+    },
+    "medium": {
+      "manpower": "2 officers + 1 patrol unit",
+      "barricading": "Local channelization with cones/signage near incident point.",
+      "diversion": "Prepare local diversion if queue spills to adjacent junction.",
+      "control_room": "Notify station control and monitor every 15 minutes."
+    },
+    "high": {
+      "manpower": "4-6 officers + 2 patrol units",
+      "barricading": "Barricade readiness at affected arm and upstream junction.",
+      "diversion": "Activate partial diversion and push advisory to nearby corridors.",
+      "control_room": "Control-room loop with field updates every 10 minutes."
+    },
+    "critical": {
+      "manpower": "8+ officers + inspector oversight + 3 patrol units",
+      "barricading": "Full barricade deployment and protected emergency lane.",
+      "diversion": "Activate full diversion plan and public advisory immediately.",
+      "control_room": "Dedicated control-room monitoring until clearance."
+    }
+  }
+}

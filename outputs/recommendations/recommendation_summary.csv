@@ -1,0 +1,9 @@
+metric,value
+events_scored,2764.0
+low_risk_events,957.0
+medium_risk_events,1255.0
+high_risk_events,372.0
+critical_risk_events,180.0
+avg_road_closure_probability,0.2174
+avg_risk_score,40.3362
+hotspot_rows,642.0
