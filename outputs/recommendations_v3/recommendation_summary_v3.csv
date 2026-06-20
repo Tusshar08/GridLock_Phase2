@@ -1,0 +1,10 @@
+metric,value
+events_scored,3498
+low_risk_events,1280
+medium_risk_events,1158
+high_risk_events,230
+critical_risk_events,830
+avg_closure_risk_probability,0.0811
+avg_risk_score,41.9282
+hotspot_rows,472
+duration_model_version,model2_v3

@@ -1,0 +1,15 @@
+{
+  "duration_points": {
+    "short": 8,
+    "medium": 22,
+    "long": 38,
+    "very_long": 52
+  },
+  "thresholds": {
+    "low": 30,
+    "medium": 55,
+    "high": 75
+  },
+  "closure_risk_source": "prior-only closure-rate proxy from duration_base_features_v1.csv",
+  "duration_model": "outputs/model2_v3/model2_v3_duration_band_model.pkl"
+}

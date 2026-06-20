@@ -1,0 +1,473 @@
+corridor,junction,police_station,total_events,avg_closure_risk,long_events,very_long_events,accident_events,breakdown_events,water_logging_events,hotspot_score,hotspot_level
+orr east 2,unknown,hal old airport,102,0.07718817828050693,83,5,0,8,0,52.20158623981774,high
+non-corridor,unknown,k.r. pura,93,0.07613137250540342,3,19,2,60,5,49.464598037689115,high
+bellary road 1,unknown,sadashivanagar,92,0.07705815213837658,5,16,1,58,5,47.69703532484318,high
+non-corridor,unknown,hennuru,46,0.07528207225885311,7,28,0,6,0,43.13487252905986,high
+magadi road,unknown,kamakshipalya,77,0.07798577334625388,4,14,0,46,2,40.82950206711888,high
+non-corridor,unknown,whitefield,62,0.07703807798633697,5,16,0,22,5,38.69633272952179,high
+tumkur road,unknown,yeshwanthpura,82,0.07855439432662317,8,7,1,62,4,38.44940380143181,high
+non-corridor,unknown,yelahanka,46,0.07841071938428366,8,18,3,11,6,37.544375178449926,high
+bellary road 2,unknown,yelahanka,52,0.07572384413561753,2,13,4,31,5,31.150334544746613,medium
+mysore road,unknown,chamarajpet,45,0.0783905522166126,2,15,0,21,12,30.94366932758144,medium
+mysore road,unknown,halasuru gate,57,0.07848573683244311,2,9,1,37,12,29.147000789135504,medium
+bellary road 1,unknown,high ground,49,0.07884217446392705,1,11,1,29,5,27.959476106237446,medium
+non-corridor,unknown,jayanagara,38,0.08398236182356375,4,12,0,15,4,27.539382663824732,medium
+non-corridor,unknown,jnanabharathi,59,0.0764839632478093,2,6,4,38,0,26.976938713673327,medium
+orr north 2,unknown,jalahalli,57,0.07523446573436884,0,7,1,38,3,26.033206300702908,medium
+non-corridor,unknown,wilson garden,36,0.07986743557161105,2,9,0,16,11,22.895360245006387,medium
+mysore road,unknown,byatarayanapura,51,0.07710883069007998,1,4,1,39,2,22.198809074152802,medium
+orr east 1,unknown,hal old airport,35,0.07918115314006124,3,7,1,20,3,21.371340359902145,medium
+airport new south road,unknown,hennuru,24,0.07556307553647025,7,8,0,1,0,21.244707643776458,medium
+tumkur road,unknown,peenya,43,0.07792590626758374,4,3,2,30,2,20.72740671936543,medium
+bellary road 1,unknown,kodigehalli,33,0.07456528568029684,1,8,1,17,1,20.30978499881039,medium
+non-corridor,unknown,k.s. layout,21,0.07451162911149817,2,11,1,6,0,20.007907018902436,medium
+non-corridor,unknown,halasur,20,0.07951422701045871,6,8,0,6,9,19.582997945366056,medium
+bannerghata road,unknown,mico layout,24,0.07878157499312353,0,10,0,11,10,18.957355124759324,medium
+cbd 2,unknown,cubbon park,19,0.07773123931882803,1,10,0,6,3,18.02059337615898,medium
+non-corridor,unknown,mahadevapura,27,0.07591732358941149,0,8,1,14,3,17.9571063256294,medium
+non-corridor,unknown,bellandur,23,0.07484529105760285,2,8,0,10,0,17.919585187016096,medium
+non-corridor,unknown,chamarajpet,20,0.07935016766564332,1,9,1,7,5,17.477255868297515,medium
+non-corridor,unknown,hal old airport,16,0.07549122221840825,4,8,0,3,1,17.04219277764429,medium
+non-corridor,unknown,r.t. nagar,23,0.07746084221861858,0,8,0,6,5,16.81112947765165,medium
+non-corridor,unknown,kodigehalli,17,0.07758412203652183,5,6,0,2,0,16.215444271278265,medium
+non-corridor,unknown,electronic city,29,0.07821233017486327,0,5,1,21,1,15.937431556120213,medium
+hosur road,unknown,madiwala,32,0.07725003857564243,1,3,1,23,5,15.603751350147483,medium
+non-corridor,unknown,kamakshipalya,22,0.07716093977849213,0,7,0,9,2,15.600632892247223,medium
+mysore road,unknown,ashok nagar,22,0.07938604866713427,1,6,0,13,2,15.378511703349698,medium
+non-corridor,unknown,sadashivanagar,21,0.07753409175894517,0,7,0,6,2,15.31369321156308,medium
+hennur main road,unknown,hennuru,21,0.07453401548856647,0,7,0,6,3,15.208690542099827,medium
+west of chord road,unknown,malleshwaram,17,0.08012085112056173,0,8,0,3,3,15.10422978921966,medium
+non-corridor,d'souzacircle,ashok nagar,3,0.38233424893965934,0,0,0,1,0,14.281698712888076,low
+hosur road,cmp gatejunc,ashok nagar,13,0.07308524304360112,1,8,0,3,2,14.257983506526038,low
+non-corridor,unknown,basavanagudi,18,0.07944057708172936,3,4,3,1,3,13.580420197860528,low
+orr north 1,unknown,banaswadi,29,0.07803445079558999,2,1,4,17,3,13.531205777845647,low
+orr west 1,unknown,j.p. nagar,16,0.07777229955747011,4,4,0,4,8,13.522030484511454,low
+old airport road,unknown,hal old airport,14,0.07519723374528069,5,4,0,3,1,13.431903181084824,low
+non-corridor,unknown,rajajinagar,17,0.07684116470175645,0,6,2,4,0,13.189440764561475,low
+non-corridor,unknown,mico layout,12,0.0744384531173757,1,7,0,2,1,13.105345859108148,low
+old madras road,unknown,halasur,15,0.08041429147782517,0,6,0,8,2,12.714500201723881,low
+bellary road 2,yelhankacircle,yelahanka,19,0.07537947505917834,1,4,3,10,3,12.538281627071242,low
+non-corridor,unknown,adugodi,15,0.0785446458713069,1,5,0,5,2,12.34906260549574,low
+non-corridor,uttarahallijunction,k.s. layout,10,0.07207719573340048,2,6,0,2,0,12.122701850669017,low
+mysore road,sattelitebusstandjunc,byatarayanapura,23,0.07601445284313903,1,2,0,20,0,11.960505849509866,low
+non-corridor,unknown,peenya,24,0.0757572758468186,2,1,2,13,2,11.951504654638649,low
+bellary road 1,mekhricircle,sadashivanagar,24,0.07302053318409414,2,1,0,18,0,11.855718661443294,low
+bellary road 2,bagalurcrossjunc,yelahanka,15,0.07958369057815047,3,3,0,7,0,11.785429170235265,low
+orr north 2,unknown,kodigehalli,11,0.07918250533792603,2,5,0,2,1,11.77138768682741,low
+orr east 1,unknown,bellandur,18,0.07829133023108054,0,4,1,14,1,11.740196558087819,low
+non-corridor,unknown,upparpet,18,0.07765551532036634,0,4,0,6,1,11.717943036212821,low
+varthur road,unknown,whitefield,15,0.07595595389812662,0,5,0,9,3,11.658458386434432,low
+non-corridor,unknown,banaswadi,19,0.07507888779375414,2,2,0,5,0,11.327761072781396,low
+non-corridor,unknown,pulikeshinagar(f.town),16,0.0784608233638779,0,4,0,6,1,11.146128817735725,low
+non-corridor,unknown,cubbon park,10,0.0781878779072863,0,6,0,2,3,11.136575726755021,low
+non-corridor,devasandra(k r puram),k.r. pura,16,0.07462643131976629,0,4,0,10,2,11.011925096191819,low
+non-corridor,unknown,halasuru gate,15,0.07775977354011064,0,4,1,9,2,10.821592073903872,low
+non-corridor,unknown,jalahalli,19,0.07632072377288993,1,2,0,13,2,10.771225332051147,low
+orr north 2,bel circle,jalahalli,13,0.0739706931947255,1,4,0,6,0,10.688974261815392,low
+bellary road 2,santhecircle,yelahanka,13,0.0748115336722254,2,3,0,6,0,10.41840367852789,low
+orr north 1,unknown,hebbala,19,0.07697214240247047,0,2,0,14,0,10.194024984086468,low
+non-corridor,unknown,j.p. nagar,8,0.07932270107915534,5,2,0,1,0,9.976294537770437,low
+orr west 1,unknown,banashankari,21,0.07879834328678427,0,1,0,14,0,9.95794201503745,low
+non-corridor,unknown,banashankari,15,0.0770624078700554,0,3,1,11,0,9.897184275451938,low
+tumkur road,yeshwanthpuracircle,yeshwanthpura,21,0.07444344934396681,0,1,1,17,0,9.805520727038838,low
+orr north 1,"veerannapalyajunction(bel,ho)",k.g. halli,7,0.08266500353187911,5,2,0,0,0,9.79327512361577,low
+hosur road,ayyappatemplejunc,madiwala,12,0.07269951912961592,0,4,0,7,0,9.744483169536556,low
+orr east 2,unknown,k.r. pura,9,0.0785937538359015,1,4,0,2,3,9.650781384256552,low
+non-corridor,unknown,k.g. halli,10,0.07950971220908717,0,4,0,4,1,9.38283992731805,low
+non-corridor,unknown,thalagattapura,13,0.07401480445810055,0,3,1,8,0,9.19051815603352,low
+varthur road,unknown,hal old airport,11,0.08017732919464869,2,2,0,5,2,9.106206521812704,low
+non-corridor,sindhicolonyjunction,pulikeshinagar(f.town),7,0.07119097364471828,0,5,0,2,0,9.09168407756514,low
+old madras road,unknown,cubbon park,9,0.0795906291651112,0,4,0,0,7,9.085672020778892,low
+bellary road 2,unknown,chikkajala,16,0.07692101120824416,1,1,2,10,0,8.992235392288546,low
+non-corridor,unknown,byatarayanapura,6,0.07952240258034748,1,4,0,1,1,8.783284090312161,low
+non-corridor,unknown,yeshwanthpura,11,0.07552886788829943,0,3,0,4,0,8.643510376090479,low
+hennur main road,nagavara-orr junction,hennuru,7,0.08185704256725848,0,4,0,0,0,8.564996489854046,low
+non-corridor,unknown,no police station,8,0.07218675467907665,0,4,0,2,0,8.526536413767682,low
+non-corridor,unknown,high ground,15,0.07916318248855819,2,0,0,7,6,8.470711387099536,low
+non-corridor,unknown,sheshadripuram,17,0.0787363684239326,1,0,0,14,2,8.45577289483764,low
+bellary road 1,hebbalflyoverjunc,kodigehalli,8,0.06978548276980007,3,2,0,3,0,8.442491896943002,low
+cbd 1,unknown,shivajinagar,7,0.0780271167628978,0,4,0,2,2,8.430949086701423,low
+orr north 1,unknown,mahadevapura,10,0.07732177784859082,0,3,0,4,3,8.40626222470068,low
+bellary road 1,unknown,hebbala,12,0.07655836745722225,2,1,2,5,1,8.379542861002777,low
+non-corridor,unknown,chikkajala,12,0.07608106481989176,2,1,2,2,0,8.362837268696211,low
+cbd 2,coffeeboardjunc,cubbon park,7,0.07570922145346058,0,4,0,2,3,8.34982275087112,low
+bannerghata road,unknown,hulimavu,10,0.07360209507957875,0,3,0,4,1,8.276073327785255,low
+non-corridor,unknown,malleshwaram,12,0.08092648434839388,0,2,0,4,0,8.232426952193785,low
+old airport road,unknown,jeevanbheemanagar,15,0.07976781505393184,0,1,1,11,1,8.191873526887614,low
+orr east 1,ibblurjunction',bellandur,7,0.07765269745310402,1,3,2,1,2,8.117844410858641,low
+non-corridor,bloodbankcircle,halasuru gate,5,0.08388983142620177,0,4,0,1,0,8.036144099917061,low
+mysore road,bangalorebodybuildersjunc,chamarajpet,12,0.07339814505095614,0,2,0,10,0,7.968935076783464,low
+mysore road,unknown,cubbon park,5,0.0818424691562879,0,4,0,1,2,7.964486420470076,low
+magadi road,leprosyhospitaljunc,magadi road,13,0.07072444573742515,1,1,0,8,0,7.87535560080988,low
+varthur road,maratahallibridgejunc,hal old airport,8,0.08535820387733126,1,2,0,5,0,7.787537135706593,low
+non-corridor,shantalajunction,chamarajpet,8,0.07584052248003621,0,3,0,4,1,7.754418286801267,low
+hosur road,unknown,electronic city,17,0.07426212915804736,0,0,7,10,0,7.699174520531657,low
+orr west 1,katriguppejunction,banashankari,8,0.07360735028599981,0,3,0,5,0,7.676257260009993,low
+orr west 1,mysorerd-ringrdjunc(nayandanahallii),byatarayanapura,8,0.07327300372815201,0,3,0,5,0,7.66455513048532,low
+mysore road,policecornerjunc,halasuru gate,14,0.07013600518572388,0,1,0,12,0,7.5547601815003365,low
+west of chord road,unknown,byatarayanapura,9,0.07975554983915467,0,2,0,5,1,7.291444244370413,low
+hennur main road,unknown,k.g. halli,6,0.07764453640813197,0,3,0,2,0,7.217558774284619,low
+non-corridor,unknown,ashok nagar,6,0.07634898005149428,0,3,0,0,1,7.1722143018023,low
+mysore road,unknown,kengeri,7,0.07537400338126694,1,2,0,2,0,7.138090118344342,low
+orr east 1,kadubeesanahalli-orr junc,hal old airport,9,0.07498406582529446,0,2,0,7,2,7.1244423038853055,low
+magadi road,unknown,magadi road,8,0.0786908409909928,0,2,0,5,0,6.954179434684748,low
+bellary road 2,kogillucrossjunc,yelahanka,9,0.07408960486293474,1,1,1,5,2,6.7931361702027155,low
+orr east 1,unknown,hsr layout,11,0.0799885668114437,1,0,0,10,1,6.699599838400529,low
+old madras road,unknown,jeevanbheemanagar,11,0.07986851984133957,1,0,1,9,0,6.695398194446884,low
+non-corridor,k r circle,halasuru gate,11,0.07121960946697445,0,1,1,6,0,6.692686331344106,low
+cbd 2,policetimmaiahcircle(gpo),cubbon park,11,0.07075470019869633,0,1,0,6,0,6.676414506954371,low
+orr east 2,unknown,mahadevapura,10,0.0761839788127845,0,1,0,6,1,6.566439258447458,low
+magadi road,sumanhalli,kamakshipalya,10,0.07237021783709813,0,1,0,7,0,6.432957624298435,low
+west of chord road,kimco junction,byatarayanapura,7,0.07199561527322243,0,2,0,4,0,6.419846534562785,low
+mysore road,townhalljunction,halasuru gate,9,0.07934347086153065,0,1,0,8,0,6.377021480153573,low
+non-corridor,sadashivnagarjunc,sadashivanagar,8,0.07885053573516475,2,0,0,6,0,6.359768750730766,low
+orr west 1,unknown,byatarayanapura,6,0.07645107675656274,0,2,0,3,1,6.275787686479695,low
+tumkur road,gokuldasimagesjunc,yeshwanthpura,12,0.07504146829657037,0,0,0,12,0,6.226451390379962,low
+bannerghata road,arakeregatejunc,hulimavu,3,0.07424512980971613,0,3,0,0,0,6.198579543340065,low
+hosur road,bommanahalli,madiwala,6,0.07389294973363782,0,2,0,4,0,6.186253240677323,low
+tumkur road,jalahallicross(sm circle),peenya,12,0.0726151661632601,0,0,1,11,0,6.141530815714103,low
+bannerghata road,bilekahallijunc,mico layout,5,0.06366523507302806,1,2,0,2,0,6.128283227555982,low
+non-corridor,unknown,v.v.puram (c.pet),11,0.08040677916619529,0,0,1,6,0,6.114237270816835,low
+non-corridor,unknown,chikkabanavara,8,0.07852824480567164,0,1,0,6,0,6.048488568198508,low
+non-corridor,subbannajunction,high ground,4,0.06964616905940647,1,2,0,0,0,6.037615917079226,low
+non-corridor,urvashijunction,wilson garden,5,0.07704452296799956,0,2,0,3,0,5.996558303879984,low
+cbd 2,indianexpressjunction,cubbon park,4,0.08307671585585805,0,2,0,2,0,5.9076850549550315,low
+orr east 1,silkboardjunc,madiwala,5,0.0732760728060131,0,2,0,2,0,5.864662548210458,low
+orr north 1,"veerannapalyajunction(bel,ho)",hebbala,4,0.08933561815672547,1,1,0,0,0,5.826746635485391,low
+old madras road,trinitycircle,halasur,5,0.07217405582834831,0,2,0,3,0,5.826091953992191,low
+mysore road,sirsicircle,chamarajpet,8,0.07142533397049453,0,1,0,6,0,5.799886688967309,low
+non-corridor,binnymilljunction,chamarajpet,4,0.07985049564955375,0,2,0,1,0,5.794767347734381,low
+west of chord road,unknown,vijayanagara,7,0.07939439840992783,0,1,0,5,0,5.778803944347475,low
+non-corridor,unknown,hebbala,5,0.07069246612805244,0,2,0,0,0,5.774236314481835,low
+tumkur road,tatainstitutecircle,sadashivanagar,5,0.070677650307478,0,2,0,3,0,5.77371776076173,low
+orr north 1,unknown,hennuru,7,0.0781713711727808,0,1,0,0,0,5.735997991047329,low
+hosur road,naganathapurajunction,electronic city,9,0.06608575160287142,1,0,0,8,0,5.613001306100498,low
+non-corridor,subedarchatramrd near sheshadripuramps,sheshadripuram,4,0.07435897357312468,0,2,0,2,0,5.602564075059363,low
+non-corridor,ringroad-ullaljunction,jnanabharathi,5,0.07338837399251674,1,1,0,3,0,5.568593089738085,low
+tumkur road,goruguntepalyajunc,yeshwanthpura,10,0.07217841341791056,0,0,1,9,0,5.526244469626869,low
+mysore road,kimco junction,byatarayanapura,10,0.07197630502478375,0,0,0,6,0,5.51917067586743,low
+orr west 1,unknown,k.s. layout,5,0.07193470957496316,1,1,0,2,1,5.51771483512371,low
+non-corridor,k h road-siddaiahrdjunc(bmtc-bigbazaar),wilson garden,5,0.08017258085434817,2,0,0,3,0,5.506040329902185,low
+tumkur road,ms ramaiahjunc(tollgate),yeshwanthpura,6,0.07925003962747089,0,1,0,5,0,5.473751386961482,low
+non-corridor,unknown,vijayanagara,4,0.07891918925509132,1,1,1,1,0,5.462171623928196,low
+old airport road,unknown,halasur,6,0.07697905209128286,0,1,0,5,0,5.394266823194901,low
+non-corridor,28thmainjayanagarjunc,jayanagara,2,0.0849856503928767,0,2,0,0,0,5.374497763750684,low
+non-corridor,unknown,jeevanbheemanagar,4,0.07564486307024523,1,1,0,1,0,5.347570207458583,low
+irr(thanisandra road),koramangalawatertankjunc,adugodi,3,0.07552753997388821,0,2,0,0,0,5.343463899086087,low
+non-corridor,sandeepunnikrishnan-yelhanka,yelahanka,5,0.08267608699107207,0,1,1,3,0,5.293663044687523,low
+tumkur road,chokasandra (tumkur road),peenya,4,0.06480689201829072,0,2,0,2,1,5.268241220640175,low
+irr(thanisandra road),unknown,ashok nagar,2,0.08176496280764259,0,2,0,0,1,5.261773698267491,low
+tumkur road,hesaraghattajunction,peenya,9,0.0722823450796709,0,0,1,8,0,5.229882077788481,low
+hosur road,anepalyajunc,ashok nagar,3,0.07204872386165757,0,2,0,1,0,5.221705335158015,low
+tumkur road,srs peenya junc,peenya,6,0.07161049169738619,0,1,1,4,0,5.2063672094085165,low
+orr north 1,horamavujunction,banaswadi,5,0.07156189002773572,2,0,0,2,0,5.20466615097075,low
+mysore road,toll gate mysore road,chamarajpet,6,0.07105320124882568,0,1,0,5,0,5.186862043708899,low
+bellary road 2,sadahalligatejunc(airportrd),chikkajala,4,0.07012740064253456,1,1,0,1,0,5.15445902248871,low
+magadi road,srigandakaval,kamakshipalya,6,0.07000304421831134,0,1,0,4,0,5.150106547640897,low
+orr north 1,nagavara-orr junction,hennuru,2,0.07741026941674095,0,2,0,0,0,5.1093594295859335,low
+orr west 1,jp nagar 15th cross junction,j.p. nagar,5,0.07697390883644131,0,1,0,3,1,5.094086809275446,low
+mysore road,rajeshwarijunc,byatarayanapura,5,0.07637252762916548,0,1,0,3,0,5.073038467020792,low
+orr east 1,deverabeesanahalli-orr junc,hal old airport,5,0.0763208095736435,0,1,0,3,0,5.071228335077523,low
+non-corridor,unknown,devanahalli airport,5,0.07617267124205837,0,1,0,4,0,5.066043493472042,low
+old airport road,isro junction-airport rd,jeevanbheemanagar,3,0.06725392203928769,0,2,0,1,0,5.053887271375069,low
+non-corridor,khodayscircle(dv urscircle),chamarajpet,8,0.07544624019864905,0,0,0,5,0,5.040618406952717,low
+bannerghata road,unknown,j.p. nagar,2,0.07531275586673725,0,2,0,0,0,5.035946455335804,low
+non-corridor,arbindo circle,jayanagara,5,0.0835185499815856,1,0,0,3,0,5.0231492493554954,low
+non-corridor,29thmainrdbtm layoutjunc,madiwala,2,0.07479304063692241,0,2,0,0,0,5.017756422292284,low
+mysore road,operahousejunc,ashok nagar,3,0.07456622155420363,1,1,0,1,0,5.009817754397127,low
+unknown,unknown,byatarayanapura,2,0.0742697854805478,0,2,0,0,0,4.999442491819173,low
+bellary road 2,yelhankabypass,yelahanka,8,0.0741814096732835,0,0,1,6,0,4.996349338564922,low
+orr north 1,ramamurthynagarjunction,banaswadi,6,0.07389004683575089,1,0,1,4,0,4.986151639251281,low
+orr west 1,delmia-jayanagar,j.p. nagar,2,0.07368363169518605,0,2,0,0,0,4.9789271093315115,low
+non-corridor,hopefarmjunction,mahadevapura,3,0.08194810316098526,2,0,0,1,0,4.968183610634483,low
+mysore road,k r marketjunction,city market,6,0.07285383625755996,1,0,0,4,0,4.949884269014598,low
+orr north 1,hebbalflyoverjunc,hebbala,3,0.0720838152949914,1,1,0,0,0,4.922933535324699,low
+tumkur road,tumkurrdmarappanapalyajunc,yeshwanthpura,8,0.07200798618352679,0,0,0,8,0,4.920279516423438,low
+irr(thanisandra road),unknown,adugodi,4,0.07999706817474175,0,1,0,3,0,4.899897386115962,low
+mysore road,dr tcm royanrd near ambedkarstatue,chamarajpet,4,0.07106398864323415,2,0,0,2,0,4.887239602513195,low
+non-corridor,bmtcjunction-k h road,wilson garden,5,0.07046451386816137,0,1,0,5,0,4.866257985385648,low
+airport new south road,unknown,pulikeshinagar(f.town),4,0.0789154964673625,0,1,1,0,0,4.862042376357688,low
+non-corridor,unknown,shivajinagar,4,0.07885936274870672,0,1,0,3,0,4.860077696204735,low
+old madras road,oldmadrasrd-indranagar100ftrdjunc,jeevanbheemanagar,7,0.07656403718885604,0,0,2,5,0,4.7797413016099615,low
+non-corridor,btm16thmain-orr junc,mico layout,4,0.07627076180466227,0,1,0,2,0,4.7694766631631795,low
+non-corridor,unknown,magadi road,4,0.075554288181003,0,1,0,1,2,4.744400086335105,low
+mysore road,richmond circle jn,halasuru gate,4,0.0753996893394773,0,1,0,3,0,4.738989126881705,low
+non-corridor,mico bande,adugodi,4,0.0731831509281357,0,1,0,3,1,4.661410282484749,low
+tumkur road,peenyapolicestation,peenya,5,0.0644923807155951,0,1,1,3,0,4.657233325045828,low
+varthur road,kundanahalligatejunc,whitefield,5,0.07273621666654198,1,0,0,4,0,4.645767583328968,low
+mysore road,a s charstreet-mysorerdjunc,chamarajpet,2,0.08964000778361544,0,1,0,1,0,4.63740027242654,low
+orr east 1,unknown,madiwala,3,0.08015980463303156,0,1,0,1,2,4.605593162156104,low
+orr north 2,kuvempucircle,jalahalli,1,0.0971223021582733,0,1,0,0,0,4.599280575539566,low
+west of chord road,unknown,magadi road,3,0.07970254287370614,0,1,0,0,0,4.589589000579714,low
+orr east 1,5thmainhsr,hsr layout,2,0.0882492524620744,0,1,0,0,0,4.588723836172604,low
+irr(thanisandra road),jaipuria-adugodi,adugodi,2,0.08794572681393231,0,1,0,1,0,4.57810043848763,low
+non-corridor,mintojunction,v.v.puram (c.pet),3,0.07733706620661927,0,1,0,2,0,4.506797317231674,low
+non-corridor,unknown,kengeri,5,0.0858620423353188,0,0,1,3,0,4.5051714817361574,low
+non-corridor,doddaballapuracrossjunc,devanahalli airport,2,0.08581480053824525,0,1,0,0,0,4.503518018838584,low
+cbd 1,shivajinagar(brv)junction,shivajinagar,2,0.08579007656598535,0,1,0,1,0,4.502652679809487,low
+old airport road,yemalur cross junc,hal old airport,3,0.07526187278831727,0,1,0,0,0,4.434165547591104,low
+hosur road,marigowda-tavarkererdjunc,madiwala,3,0.0741659749021056,0,1,0,1,0,4.395809121573696,low
+orr east 2,unknown,banaswadi,6,0.07362127825000031,0,0,0,6,0,4.376744738750011,low
+bellary road 2,hunsemarammanahallijunction,chikkajala,4,0.09063591320790162,0,0,2,0,0,4.372256962276557,low
+non-corridor,chaudrayacircle/udayatvcircle(cantonmentjunc),high ground,3,0.07343759274926458,0,1,0,2,0,4.37031574622426,low
+hosur road,silkboardjunc,madiwala,4,0.07324292213091449,1,0,0,3,0,4.3635022745820065,low
+mysore road,oldpolicestation-ashoknagar,ashok nagar,5,0.08161944334650653,0,0,1,2,0,4.356680517127728,low
+mysore road,n r squarejunc,halasuru gate,6,0.07226216479488135,0,0,0,6,0,4.329175767820846,low
+non-corridor,bigbazaar(whitefield)junc,mahadevapura,2,0.08041495791064104,0,1,0,1,0,4.314523526872437,low
+non-corridor,statebankofmysorejunc,upparpet,5,0.0798712663673804,0,0,0,4,0,4.295494322858314,low
+non-corridor,krishnaflourmill,sheshadripuram,6,0.07124518240074047,0,0,0,6,0,4.2935813840259165,low
+non-corridor,wilsongarden10thcrossjunc,wilson garden,3,0.071076532639477,0,1,0,2,0,4.287678642381695,low
+bellary road 1,hebbalflyoverjunc,hebbala,3,0.07088674842210776,0,1,0,2,0,4.281036194773772,low
+hosur road,unknown,ashok nagar,2,0.0792700250322736,0,1,0,1,0,4.274450876129576,low
+non-corridor,hoodijunction,mahadevapura,3,0.0706151242647884,0,1,0,1,0,4.271529349267594,low
+non-corridor,tc palya-om roadjunc,k.r. pura,3,0.07030924675836087,0,1,0,2,0,4.26082363654263,low
+non-corridor,potterycircle,pulikeshinagar(f.town),3,0.06990541976561089,0,1,0,2,0,4.246689691796381,low
+non-corridor,hainsjunc,pulikeshinagar(f.town),3,0.0697492672368795,0,1,0,2,0,4.241224353290782,low
+non-corridor,fti junction(kanteeravastudio),rajajinagar,4,0.08640054017952838,0,0,0,4,0,4.224018906283494,low
+non-corridor,gowdanapalyajunction,k.s. layout,1,0.1117318435754189,0,0,0,1,0,4.210614525139661,low
+airport new south road,hennurroad-orr junc,k.g. halli,5,0.07680209846418799,0,0,0,5,0,4.18807344624658,low
+orr east 1,maratahallibridgejunc,hal old airport,2,0.08373120792326255,1,0,0,0,0,4.1305922773141885,low
+bellary road 2,jakkurcrossjunction,yelahanka,5,0.07510631236159895,0,0,2,2,0,4.128720932655963,low
+non-corridor,basavamantapajunc-dr rajkumarrd,magadi road,2,0.0749377341369903,0,1,0,1,0,4.122820694794661,low
+bannerghata road,meenakshimalljunc,hulimavu,2,0.07481347628597901,0,1,0,1,0,4.118471670009265,low
+mysore road,hudsoncircle,halasuru gate,3,0.07424238668881923,1,0,0,2,0,4.098483534108673,low
+mysore road,ulsoorgatejunc,halasuru gate,5,0.07418214095289734,0,0,0,4,0,4.096374933351407,low
+orr west 1,pes-devegowdacircle,byatarayanapura,1,0.1081081081081081,0,0,0,1,0,4.083783783783783,low
+non-corridor,k r circle,upparpet,2,0.07381982629792169,0,1,0,0,0,4.083693920427259,low
+non-corridor,unknown,city market,2,0.08230816929768994,1,0,0,1,0,4.080785925419148,low
+non-corridor,nagarbhavi,byatarayanapura,3,0.07341193935052176,1,0,0,1,0,4.069417877268261,low
+bannerghata road,hulimaverd-banneraghattardjunc,hulimavu,2,0.07330910555271511,0,1,0,1,0,4.065818694345029,low
+hosur road,unknown,mico layout,1,0.0817777777777777,0,1,0,0,0,4.0622222222222195,low
+mysore road,motherteressacircle,ashok nagar,5,0.0731818823747928,0,0,0,4,0,4.061365883117748,low
+orr north 1,unknown,k.g. halli,2,0.073089658277017,0,1,0,1,0,4.058138039695595,low
+non-corridor,cid-carltonhousejunc,cubbon park,2,0.07299598540711144,0,1,0,1,0,4.0548594892489005,low
+orr west 1,itmadujunction,banashankari,5,0.07297615652139856,0,0,0,5,0,4.054165478248949,low
+non-corridor,elitejunc,upparpet,4,0.08146504301881922,0,0,0,2,0,4.051276505658673,low
+mysore road,siddalingaiahcircle,cubbon park,4,0.08053587505042009,0,0,0,4,0,4.018755626764703,low
+orr north 1,"veerannapalyajunction(bel,ho)",hennuru,1,0.0804387568555758,0,1,0,0,0,4.015356489945153,low
+non-corridor,sagartheatrejunc,upparpet,4,0.08020668513037126,0,0,0,3,0,4.007233979562994,low
+orr north 2,bhadrappalayout,kodigehalli,2,0.0714677959918213,0,1,1,0,0,4.001372859713746,low
+old madras road,queensstatuecircle,cubbon park,2,0.07124121568774244,0,1,0,1,0,3.9934425490709855,low
+non-corridor,ngv reargatejunc,adugodi,2,0.07121721468905565,0,1,0,1,0,3.9926025141169474,low
+non-corridor,wilsongarden12thcrossjunc,wilson garden,4,0.07935059359162973,0,0,0,3,0,3.9772707757070407,low
+irr(thanisandra road),srinivagilu(ejipura)junc,ashok nagar,2,0.0705272560236649,0,1,0,1,0,3.9684539608282714,low
+orr north 2,unknown,yeshwanthpura,4,0.07867861185789543,0,0,0,4,0,3.95375141502634,low
+non-corridor,kcg hospitaljunction,malleshwaram,2,0.0700516812151388,0,1,0,0,0,3.951808842529858,low
+old madras road,unknown,shivajinagar,4,0.0785088846585971,0,0,0,4,0,3.947810963050898,low
+hosur road,unknown,adugodi,4,0.0775561485749221,0,0,0,3,0,3.9144652001222733,low
+non-corridor,chaudrayacircle/udayatvcircle(cantonmentjunc),r.t. nagar,2,0.06878016604116904,0,1,0,0,0,3.9073058114409163,low
+magadi road,prasannajunction,magadi road,5,0.06872232469378886,0,0,0,3,0,3.90528136428261,low
+non-corridor,electroniccitygate-2junc,electronic city,4,0.0772172727643979,0,0,0,4,0,3.902604546753926,low
+non-corridor,upparpetjunction,upparpet,1,0.0760598503740648,0,1,0,0,0,3.8620947630922675,low
+bellary road 1,lrde junction,high ground,4,0.07525533418898189,0,0,0,3,0,3.8339366966143658,low
+old airport road,domlurwatertank,halasur,3,0.08370460494349617,0,0,0,2,0,3.8296611730223655,low
+bellary road 1,unknown,r.t. nagar,4,0.07482905552388283,0,0,0,4,0,3.8190169433358987,low
+non-corridor,bloodbankcircle,ashok nagar,1,0.0746619635508524,0,1,1,0,0,3.8131687242798336,low
+unknown,unknown,pulikeshinagar(f.town),1,0.0745562130177514,0,1,0,0,0,3.809467455621298,low
+old madras road,shivajinagar(brv)junction,shivajinagar,4,0.07452267431997495,0,0,0,2,0,3.8082936011991233,low
+non-corridor,ring road-near kengunte junction,jnanabharathi,4,0.07443121472420412,0,0,0,4,0,3.8050925153471447,low
+unknown,unknown,yelahanka,1,0.0743653111660301,0,1,0,0,0,3.802785890811053,low
+cbd 2,queensstatuecircle,cubbon park,1,0.0743542916775371,0,1,0,0,0,3.802400208713798,low
+unknown,unknown,whitefield,1,0.0743075883809952,0,1,0,0,0,3.8007655933348317,low
+non-corridor,begummahaljunc,halasur,1,0.0741659773917838,0,1,0,0,0,3.7958092087124324,low
+non-corridor,nagatheaterjunc-ulsoor,pulikeshinagar(f.town),1,0.0741590214067278,0,1,0,0,0,3.795565749235472,low
+mysore road,toll gate mysore road,byatarayanapura,3,0.08254292391050745,0,0,0,3,0,3.7890023368677603,low
+old airport road,domlurwatertank,jeevanbheemanagar,2,0.07391907497113029,1,0,0,1,0,3.78716762398956,low
+non-corridor,gangammagudijunc,jalahalli,4,0.07363538907202952,0,0,0,4,0,3.777238617521033,low
+west of chord road,mahalaxmilayoutentrancejunc,malleshwaram,1,0.0736160188457008,0,1,0,0,0,3.776560659599528,low
+unknown,unknown,jnanabharathi,1,0.0734321550741163,0,1,0,0,0,3.77012542759407,low
+old madras road,mayohalljunction,ashok nagar,4,0.0732994291404192,0,0,0,1,0,3.765480019914672,low
+non-corridor,linkroadmalleswaramjunc,sheshadripuram,3,0.08180604385673383,0,0,0,3,0,3.763211534985684,low
+bannerghata road,unknown,jayanagara,3,0.08133286494248583,0,0,0,2,0,3.746650272987004,low
+non-corridor,navarangbarjunc-dr rajkumarrd,rajajinagar,1,0.0726825842696629,0,1,0,0,0,3.743890449438201,low
+irr(thanisandra road),koramangalawatertankjunc,madiwala,1,0.0983606557377049,0,0,0,1,0,3.7426229508196713,low
+non-corridor,banashankaribusstandjunc,banashankari,1,0.0724815724815724,0,1,0,0,0,3.736855036855034,low
+non-corridor,shivandacircle,high ground,4,0.07241738095435335,0,0,0,4,0,3.7346083334023668,low
+bellary road 1,unknown,cubbon park,3,0.08090372853267204,0,0,0,2,0,3.7316304986435216,low
+hosur road,johnsonmarket,ashok nagar,1,0.0722129783693843,0,1,0,0,0,3.72745424292845,low
+non-corridor,nagarbhavi,jnanabharathi,1,0.0721205597416577,0,1,0,0,0,3.724219590958019,low
+hosur road,sarjapurrd-st johnsrdjunc,madiwala,1,0.0720175920835624,0,1,0,0,0,3.7206157229246837,low
+non-corridor,rrr(okalipuram)junction,sheshadripuram,3,0.08057635897859054,0,0,0,2,0,3.7201725642506687,low
+non-corridor,veerasandragatejunction,electronic city,5,0.06341746580949967,0,0,2,3,0,3.7196113033324885,low
+bannerghata road,jayadevahospitaljunc,mico layout,4,0.07192120593787252,0,0,0,4,0,3.717242207825538,low
+airport new south road,hennurrd-davisrdjunction,pulikeshinagar(f.town),1,0.071505376344086,0,1,0,0,0,3.70268817204301,low
+hosur road,unknown,hsr layout,3,0.079910561414464,0,0,0,3,0,3.69686964950624,low
+orr east 1,agarajunction,hsr layout,2,0.07131907476821955,1,0,0,0,0,3.6961676168876845,low
+west of chord road,vijayanagarbusstandjunction,vijayanagara,4,0.07111400157412355,0,0,0,2,0,3.688990055094324,low
+non-corridor,shivashankara circle,v.v.puram (c.pet),2,0.08825210221242549,0,0,0,1,0,3.6888235774348925,low
+west of chord road,modibridgejunction,rajajinagar,1,0.0708633093525179,0,1,0,0,1,3.680215827338126,low
+old madras road,oldmadrasrd-doublerdjunc,jeevanbheemanagar,3,0.07934630248250814,0,0,0,3,0,3.6771205868877845,low
+non-corridor,bagalakuntecrossjunction,chikkabanavara,1,0.0707218761451081,0,1,0,0,1,3.675265665078783,low
+mysore road,ashirwadamcircle,cubbon park,1,0.0706888788833858,0,1,0,0,0,3.6741107609185026,low
+mysore road,unknown,city market,3,0.07909695577472199,0,0,0,2,0,3.6683934521152692,low
+non-corridor,lalbaghmaingatejunc,wilson garden,3,0.07908874426804406,0,0,0,2,0,3.668106049381542,low
+non-corridor,bamboobazar(shivajinagar),pulikeshinagar(f.town),1,0.0703539823008849,0,1,0,0,1,3.662389380530971,low
+non-corridor,"priyadarshinihotel,jayamahal,rt nagar",r.t. nagar,1,0.0696982575435614,0,1,0,0,0,3.639439014024649,low
+non-corridor,bucheryjunction,adugodi,1,0.0693717277486911,0,1,0,0,0,3.6280104712041883,low
+non-corridor,bucheryjunction,ashok nagar,1,0.0690010298661174,0,1,0,0,0,3.615036045314109,low
+irr(thanisandra road),unknown,jeevanbheemanagar,3,0.07735228949954456,0,0,0,1,0,3.6073301324840594,low
+non-corridor,marigowda-tavarkererdjunc,mico layout,4,0.06862468822707363,0,0,0,0,0,3.6018640879475763,low
+non-corridor,"jayanagar 4th main,36th cross",jayanagara,2,0.06823862775612505,1,0,0,1,0,3.588351971464377,low
+non-corridor,dr tcm royanrd near ambedkarstatue,chamarajpet,2,0.0852640822545564,0,0,0,1,0,3.584242878909474,low
+non-corridor,unknown,madiwala,3,0.0759426760236126,0,0,0,1,0,3.557993660826441,low
+mysore road,ashoknagar junction(shoolaycircle),ashok nagar,3,0.07509655559628782,0,0,0,3,0,3.5283794458700735,low
+orr east 1,"bellandur junction, outer ring road",bellandur,2,0.08333818360905285,0,0,0,1,0,3.51683642631685,low
+mysore road,unknown,jnanabharathi,3,0.07435094355361506,0,0,0,1,0,3.502283024376527,low
+non-corridor,peenya2ndstagebusstand,peenya,1,0.0655884995507637,0,1,0,0,0,3.495597484276729,low
+non-corridor,domlurwatertank,halasur,3,0.07414040812620314,0,0,0,3,0,3.4949142844171095,low
+old madras road,anilkumblecircle,cubbon park,3,0.07407660161840067,0,0,0,2,0,3.492681056644023,low
+tumkur road,srs peenya junc,yeshwanthpura,3,0.0736491694517088,0,0,0,3,0,3.4777209308098076,low
+mysore road,shivajitalkiesjunc,halasuru gate,3,0.0736226726374509,0,0,0,3,0,3.4767935423107814,low
+old airport road,"kuvempucirclejunc,hal maingate",hal old airport,1,0.090625,0,0,0,1,0,3.471875,low
+non-corridor,swagathmainrd-eastendrdjunc,jayanagara,1,0.0648604269293924,0,1,0,0,0,3.4701149425287334,low
+non-corridor,khodayscircle(dv urscircle),upparpet,2,0.08198095391430345,0,0,0,1,0,3.4693333870006207,low
+mysore road,richmond circle jn,ashok nagar,2,0.0815649212580283,0,0,0,2,0,3.4547722440309907,low
+irr(thanisandra road),indiranasgar13thmainjunc,jeevanbheemanagar,1,0.0899357601713062,0,0,0,0,0,3.4477516059957165,low
+bellary road 2,batrayanapura(amrutahalli)junction,hebbala,2,0.081280090625885,0,0,1,1,0,3.444803171905975,low
+non-corridor,shankarmuttcircle,vijayanagara,2,0.0812474820723551,0,0,0,1,0,3.4436618725324286,low
+non-corridor,millcornerrd-sampigerdjunc,sheshadripuram,2,0.0809926588704752,0,0,0,2,0,3.4347430604666322,low
+orr west 1,kadirenahallijunction,banashankari,3,0.07166019782364076,0,0,0,3,0,3.408106923827426,low
+non-corridor,minerva circle,city market,1,0.0887573964497041,0,0,0,1,0,3.4065088757396427,low
+non-corridor,malleswaram18thcrossrd-sampigerdjunc,sadashivanagar,2,0.0799548138027851,0,0,1,1,0,3.3984184830974784,low
+hennur main road,nagavara-orr junction,k.g. halli,2,0.07979292918477904,0,0,0,0,0,3.392752521467266,low
+magadi road,yeshwanthpuracircle,magadi road,1,0.0876712328767123,0,0,0,1,0,3.3684931506849303,low
+mysore road,mysorerd--madhupetrolbunkjunction,kengeri,3,0.07011785502348333,0,0,0,0,0,3.3541249258219166,low
+cbd 2,minsksquare(cto junction),cubbon park,1,0.07,1,0,0,0,0,3.35,low
+non-corridor,bmtcjunction-k h road,malleshwaram,1,0.0868263473053892,0,0,0,1,0,3.3389221556886217,low
+non-corridor,nandicross(ranicross),devanahalli airport,2,0.07789350570454459,0,0,0,2,0,3.326272699659061,low
+bellary road 1,yelhankacircle,kodigehalli,1,0.0852713178294573,0,0,0,1,0,3.2844961240310053,low
+non-corridor,hallithindi,basavanagudi,2,0.07643968820448105,0,0,0,2,0,3.2753890871568365,low
+mysore road,siddalingaiahcircle,halasuru gate,2,0.07590313207806171,0,0,0,1,0,3.2566096227321597,low
+orr north 1,kammanahalli-ringroadjunction,banaswadi,2,0.0757749712973593,0,0,0,2,0,3.252123995407575,low
+mysore road,bloodbankcircle,halasuru gate,2,0.07550538455480596,0,0,0,2,0,3.2426884594182086,low
+bellary road 2,unknown,kodigehalli,2,0.07544426765726325,0,0,0,2,0,3.240549368004214,low
+non-corridor,marenahallird-18thmainrdjunc,jayanagara,2,0.0753629778855682,0,0,0,1,0,3.237704225994887,low
+non-corridor,konanakuntejunction(kanakapurarrd),k.s. layout,2,0.07433408664863844,0,0,0,2,0,3.2016930327023454,low
+tumkur road,unknown,chikkabanavara,1,0.0827395666715137,0,0,0,1,0,3.1958848335029795,low
+west of chord road,fire force junction,magadi road,2,0.0737804014073404,0,0,0,1,0,3.1823140492569144,low
+unknown,unknown,wilson garden,1,0.0823000408775037,0,0,0,0,1,3.180501430712629,low
+unknown,unknown,halasuru gate,1,0.0822552090426256,0,0,0,0,0,3.1789323164918954,low
+mysore road,johnsonmarket,ashok nagar,1,0.0822179732313575,0,0,0,1,0,3.177629063097512,low
+airport new south road,unknown,k.g. halli,1,0.0821023169025035,0,0,0,1,0,3.173581091587622,low
+bannerghata road,unknown,wilson garden,1,0.0820623565933324,0,0,0,1,0,3.1721824807666335,low
+bellary road 2,unknown,hebbala,1,0.082028221429679,0,0,0,0,0,3.1709877500387647,low
+unknown,unknown,ashok nagar,1,0.0819601662129244,0,0,0,1,0,3.1686058174523537,low
+mysore road,universityjunc(janabharti),jnanabharathi,2,0.07338358019546405,0,0,0,2,0,3.168425306841242,low
+non-corridor,chandrikajunction,high ground,2,0.07319028057650445,0,0,0,1,0,3.161659820177656,low
+hosur road,unknown,hulimavu,1,0.0817096165933375,0,0,0,1,0,3.1598365807668123,low
+bellary road 1,basaweshwaracircle,cubbon park,2,0.07293876216380335,0,0,1,1,0,3.1528566757331173,low
+varthur road,kundanahalligatejunc,hal old airport,1,0.0643231114435303,1,0,0,0,0,3.15130890052356,low
+west of chord road,dhobighatjunc,vijayanagara,1,0.0814393939393939,0,0,0,1,0,3.1503787878787857,low
+west of chord road,5thmainrpc layout-vijayanagar,vijayanagara,2,0.0727042062647888,0,0,0,2,0,3.1446472192676076,low
+cbd 2,yeshwanthpuracircle,shivajinagar,3,0.06409314730836424,0,0,0,3,0,3.143260155792748,low
+hosur road,adugodijunc,adugodi,2,0.07242390905757234,0,0,1,0,0,3.134836817015032,low
+west of chord road,attiguppecirclejunction,byatarayanapura,1,0.0805860805860805,0,0,0,1,0,3.120512820512817,low
+non-corridor,policecornerjunc,halasuru gate,2,0.0719204712223182,0,0,0,2,0,3.117216492781137,low
+bellary road 1,mekhricircle,r.t. nagar,2,0.07172792693648435,0,0,0,2,0,3.1104774427769524,low
+non-corridor,loweragaram(indiagarage)junc,halasur,2,0.0715263243287093,0,0,0,1,0,3.1034213515048252,low
+non-corridor,statebankofmysorejunc,halasuru gate,2,0.0715064407799107,0,0,0,2,0,3.1027254272968743,low
+non-corridor,commandohospitaljunc,halasur,2,0.0713626747888833,0,0,0,2,0,3.0976936176109158,low
+west of chord road,shivanahallijunctionwoc,vijayanagara,2,0.0711809167186741,0,0,0,1,0,3.0913320851535935,low
+west of chord road,cholurpalyajunction(magadird),magadi road,2,0.07071926807283685,0,0,0,1,0,3.0751743825492897,low
+mysore road,a s charstreet-mysorerdjunc,city market,2,0.0705971722910885,0,0,0,1,0,3.0709010301880975,low
+non-corridor,dr rajkumarrd-10thcrossrdjunc,malleshwaram,2,0.0702626893978249,0,0,0,1,0,3.0591941289238713,low
+non-corridor,bmtcjunction-k h road,halasuru gate,2,0.0702602376408758,0,0,0,2,0,3.059108317430653,low
+old madras road,ramaiahcircle-ulsoorpolicestation,halasur,2,0.07021287384882044,0,0,0,2,0,3.057450584708715,low
+orr east 1,hsr14thmainjunc,hsr layout,2,0.0692508552239274,0,0,0,2,0,3.023779932837459,low
+old madras road,unknown,ashok nagar,1,0.0773889636608344,0,0,0,0,1,3.008613728129204,low
+non-corridor,margosard-18thcrossjunc,sadashivanagar,1,0.0767584097859327,0,0,0,1,0,2.986544342507644,low
+non-corridor,bhashyamcircle-sadashivnagar,sadashivanagar,2,0.06803777533919605,0,0,0,2,0,2.981322136871862,low
+bannerghata road,j d marajunc,mico layout,1,0.0764148233266302,0,0,0,1,0,2.974518816432057,low
+irr(thanisandra road),bm shrijunc(cmh-100ftrd)junc,jeevanbheemanagar,1,0.0764090644973852,0,0,0,1,0,2.9743172574084817,low
+hosur road,kudlu gate junc,electronic city,1,0.0763490241102181,0,0,0,1,0,2.972215843857633,low
+non-corridor,krupanidhi college,adugodi,1,0.0762991889456293,0,0,0,1,0,2.9704716130970255,low
+tumkur road,tumkurrdmarappanapalyajunc,sheshadripuram,1,0.0762812872467222,0,0,0,1,0,2.969845053635277,low
+mysore road,mysorerd-ringrdjunc(nayandanahallii),byatarayanapura,2,0.06763173862946825,0,0,0,2,0,2.967110852031389,low
+west of chord road,unknown,rajajinagar,1,0.0761068422978412,0,0,0,1,0,2.963739480424442,low
+non-corridor,platformrdjunction,sheshadripuram,1,0.0760869565217391,0,0,0,1,0,2.963043478260868,low
+old madras road,arts&craftscircle,cubbon park,1,0.0759915228580078,0,0,0,1,0,2.9597033000302724,low
+west of chord road,mc circle,magadi road,1,0.0757196495619524,0,0,0,1,0,2.9501877346683334,low
+tumkur road,yeshwanthpuracircle,sadashivanagar,1,0.0756541524459613,0,0,0,1,0,2.9478953356086453,low
+tumkur road,yeshwanthpuracircle,r.t. nagar,1,0.0756326414557861,0,0,0,1,0,2.9471424509525135,low
+cbd 2,indianexpressjunction,shivajinagar,1,0.0753644675067951,0,0,0,1,0,2.937756362737828,low
+non-corridor,asc junction,halasur,2,0.06673673547301764,0,0,0,2,0,2.9357857415556174,low
+non-corridor,kr road-14thcross junc,banashankari,1,0.0753004660289428,0,0,0,1,0,2.935516311012998,low
+mysore road,toll gate mysore road,banashankari,1,0.075268817204301,0,0,0,1,0,2.9344086021505342,low
+unknown,unknown,hal old airport,1,0.074770863482875,0,0,0,0,0,2.9169802219006247,low
+cbd 1,safinaplazajunc,shivajinagar,1,0.0746157659890927,0,0,0,1,0,2.9115518096182442,low
+non-corridor,siddapurajunction,wilson garden,1,0.074560317067129,0,0,0,0,0,2.9096110973495146,low
+bellary road 1,yeshwanthpuracircle,kodigehalli,1,0.0745224643529728,0,0,0,1,0,2.9082862523540474,low
+old madras road,oldmadrasrd-ngef junc,jeevanbheemanagar,1,0.0744625065547981,0,0,0,1,0,2.906187729417933,low
+old madras road,kamrajrdjunction,shivajinagar,1,0.0743650170201623,0,0,0,0,0,2.90277559570568,low
+non-corridor,binnymilljunction,magadi road,1,0.0742314421394651,0,0,0,1,0,2.898100474881278,low
+old madras road,operahousejunc,ashok nagar,1,0.0741514360313315,0,0,0,0,0,2.895300261096602,low
+non-corridor,shivajinagar(brv)junction,shivajinagar,1,0.0740136054421768,0,0,0,1,0,2.8904761904761878,low
+non-corridor,karnatakabhavanjunction,magadi road,1,0.0740048089767566,0,0,0,0,0,2.8901683141864805,low
+non-corridor,geeta circle,jayanagara,1,0.0738724727838258,0,0,0,1,0,2.8855365474339028,low
+non-corridor,unknown,hsr layout,1,0.0738498789346246,0,0,0,0,0,2.8847457627118605,low
+west of chord road,chandralayoutjunc-nearwatertank,byatarayanapura,1,0.0738461538461538,0,0,0,1,0,2.8846153846153824,low
+non-corridor,"trilight circle,race course road",high ground,1,0.0738236884802596,0,0,0,1,0,2.8838290968090856,low
+mysore road,kimco junction,chamarajpet,1,0.0737959606421543,0,0,0,1,0,2.8828586224754003,low
+bannerghata road,swagathmainrd-eastendrdjunc,jayanagara,1,0.0737768573647424,0,0,0,1,0,2.882190007765984,low
+orr west 1,devegowdapetrolbunkjunc,banashankari,1,0.0733826842613453,0,0,0,1,0,2.868393949147085,low
+bellary road 2,yeshwanthpuracircle,yelahanka,1,0.0733652312599681,0,0,0,1,0,2.8677830940988835,low
+non-corridor,konanakuntejunction(kanakapurarrd),thalagattapura,1,0.0730907899049492,0,0,0,1,0,2.8581776466732216,low
+non-corridor,dairycircle,mico layout,1,0.0728554641598119,0,0,0,1,0,2.8499412455934157,low
+non-corridor,beml gatejunc(suranjandasrd),jeevanbheemanagar,1,0.0728376327769347,0,0,0,1,0,2.849317147192714,low
+irr(thanisandra road),bda junctio-koramangala,adugodi,1,0.0728171334431631,0,0,0,0,0,2.848599670510708,low
+hosur road,uco bank(forum),adugodi,1,0.07279843444227,0,0,0,1,0,2.8479452054794496,low
+non-corridor,maharajajunction,adugodi,1,0.0727956254272043,0,0,0,1,0,2.8478468899521503,low
+non-corridor,basappa circle junction,city market,1,0.0727272727272727,0,0,0,1,0,2.845454545454544,low
+hosur road,kudlu gate junc,hulimavu,1,0.0727130570758405,0,0,0,1,0,2.844956997654417,low
+mysore road,cashpharmacyjunction,ashok nagar,1,0.0726985381272224,0,0,0,1,0,2.844448834452784,low
+non-corridor,17th mn 1st crs aishwarya stores jn,adugodi,1,0.0726052471018914,0,0,0,1,0,2.8411836485661985,low
+non-corridor,gopalgowdajunc,cubbon park,1,0.0725423728813559,0,0,0,1,0,2.8389830508474563,low
+hennur main road,unknown,chikkajala,1,0.07251153592617,0,0,0,1,0,2.83790375741595,low
+orr north 1,yeshwanthpuracircle,banaswadi,1,0.0725025058469762,0,0,0,1,0,2.8375877046441667,low
+tumkur road,tatainstitutecircle,yeshwanthpura,1,0.0724982981620149,0,0,0,1,0,2.8374404356705214,low
+non-corridor,rajeshwarijunc,kengeri,1,0.072453622681134,0,0,0,1,0,2.83587679383969,low
+non-corridor,jp nagar 9th cross-24th main jn,j.p. nagar,1,0.072372769332452,0,0,0,1,0,2.8330469266358196,low
+non-corridor,tatainstitutecircle,sadashivanagar,1,0.072289156626506,0,0,0,1,0,2.8301204819277093,low
+non-corridor,wiprojunc-koramangala,adugodi,1,0.0720830788026878,0,0,0,0,0,2.8229077580940727,low
+bannerghata road,gorappanapalyajunction,mico layout,1,0.072072072072072,0,0,0,0,0,2.8225225225225197,low
+old madras road,manipalcentrejunc,shivajinagar,1,0.0718050065876152,0,0,0,1,0,2.8131752305665314,low
+bannerghata road,dairycircle,wilson garden,1,0.0717850287907869,0,0,0,1,0,2.812476007677541,low
+mysore road,royancircle-chamrajpete,chamarajpet,1,0.071625344352617,0,0,0,1,0,2.8068870523415943,low
+non-corridor,nttf junctionpeenya,peenya,1,0.0716129032258064,0,0,0,1,0,2.8064516129032238,low
+non-corridor,devangahosteljunction,halasuru gate,1,0.0715900527505651,0,0,0,1,0,2.805651846269778,low
+magadi road,jaimuniraocircle,vijayanagara,1,0.0715667311411992,0,0,0,1,0,2.804835589941972,low
+old madras road,begummahaljunc,halasur,1,0.0714823175319789,0,0,0,1,0,2.801881113619261,low
+non-corridor,shivandacircle,sheshadripuram,1,0.0713121434392828,0,0,0,1,0,2.7959250203748973,low
+hosur road,marigowda-tavarkererdjunc,mico layout,1,0.0712209302325581,0,0,0,1,0,2.7927325581395332,low
+west of chord road,tumkurrdmarappanapalyajunc,yeshwanthpura,1,0.0711159737417943,0,0,0,1,0,2.7890590809628004,low
+cbd 1,tyagihengalvarayajunc(dickensonrd),shivajinagar,1,0.0710829921845924,0,0,0,1,0,2.7879047264607335,low
+non-corridor,yediyurmeternityhospital,banashankari,1,0.0710037174721189,0,0,0,0,0,2.785130111524161,low
+orr west 1,ncert junction,banashankari,1,0.0709459459459459,0,0,0,1,0,2.7831081081081064,low
+non-corridor,south end circle,basavanagudi,1,0.0708256880733945,0,0,1,0,0,2.778899082568807,low
+non-corridor,nimhans junction,wilson garden,1,0.070729537366548,0,0,0,1,0,2.7755338078291794,low
+orr west 1,kamakyajunction,banashankari,1,0.0706618962432916,0,0,0,1,0,2.7731663685152057,low
+non-corridor,tvs crossjunction,peenya,1,0.0706243602865916,0,0,0,1,0,2.7718526100307055,low
+west of chord road,modihospital,vijayanagara,1,0.0703851261620186,0,0,0,0,0,2.7634794156706506,low
+non-corridor,arakeregatejunc,j.p. nagar,1,0.0703043022035676,0,0,0,0,0,2.7606505771248657,low
+non-corridor,anandraojunction,sheshadripuram,1,0.0702554744525547,0,0,0,1,0,2.7589416058394143,low
+non-corridor,unknown,hulimavu,1,0.070215695273061,0,0,0,1,0,2.7575493345571345,low
+non-corridor,rajajinagarentrancejunction,rajajinagar,1,0.07001414427157,0,0,0,0,0,2.75049504950495,low
+west of chord road,dr rajkumarrd-10thcrossrdjunc,malleshwaram,1,0.0698901098901099,0,0,0,1,0,2.7461538461538457,low
+non-corridor,hesaraghattajunction,peenya,1,0.0694789081885856,0,0,0,1,0,2.7317617866004955,low
+old madras road,oldmadrasrd-bmtc depotjunc,jeevanbheemanagar,1,0.0692379182156133,0,0,0,1,0,2.723327137546465,low
+airport new south road,hennurroad-orr junc,banaswadi,1,0.0691952844695028,0,0,0,1,0,2.7218349564325974,low
+non-corridor,karnatakabhavanjunction,sheshadripuram,1,0.0689655172413793,0,0,0,1,0,2.713793103448275,low
+non-corridor,yelhankacircle,r.t. nagar,1,0.068901303538175,0,0,0,1,0,2.7115456238361246,low
+non-corridor,bhashyamcircle,rajajinagar,1,0.0673352435530086,0,0,0,1,0,2.6567335243553005,low
+non-corridor,margosard-18thcrossjunc,malleshwaram,1,0.0666666666666666,0,0,0,1,0,2.6333333333333306,low
+tumkur road,tumkurrdmarappanapalyajunc,jnanabharathi,1,0.0666097352690008,0,0,0,1,0,2.6313407344150272,low
+irr(thanisandra road),sonyworldjunction,adugodi,1,0.066219614417435,0,0,0,1,0,2.6176865046102247,low
+old madras road,webbscircle,ashok nagar,1,0.0661231884057971,0,0,0,0,0,2.6143115942028983,low
+bellary road 2,batrayanapura(amrutahalli)junction,kodigehalli,1,0.0660377358490566,0,0,0,0,0,2.6113207547169806,low
+non-corridor,k r circle,cubbon park,1,0.0659983291562238,0,0,0,1,0,2.609941520467833,low
+mysore road,sattelitebusstandjunc,high ground,1,0.06523534269199,0,0,0,1,0,2.5832369942196496,low
+orr north 2,goruguntepalyajunc,yeshwanthpura,1,0.064091308165057,0,0,0,1,0,2.5431957857769945,low
+non-corridor,bhel gate,electronic city,1,0.0615384615384615,0,0,0,0,0,2.4538461538461522,low
+non-corridor,arbindo circle,j.p. nagar,1,0.0277777777777777,0,1,0,0,0,2.1722222222222194,low
+non-corridor,fti junction(kanteeravastudio),yeshwanthpura,1,0.0227272727272727,0,1,0,0,0,1.9954545454545443,low
+non-corridor,27th cross jayanagar(ganapathi temple),jayanagara,1,0.0357142857142857,0,0,0,1,0,1.5499999999999994,low
