@@ -1,0 +1,17 @@
+{
+  "selected_model": "XGBoost",
+  "accuracy": 0.6114285714285714,
+  "balanced_accuracy": 0.5872972894566342,
+  "macro_f1": 0.5753411088247726,
+  "weighted_f1": 0.5969733930096668,
+  "feature_count": 3357,
+  "rows": 3498,
+  "label_mapping": {
+    "long": 0,
+    "medium": 1,
+    "short": 2,
+    "very_long": 3
+  },
+  "used_model1_feature_importance_file": "outputs/model/feature_importance_ensemble.csv",
+  "duration_source_file": "outputs/feature_engineering_v1/duration_base_features_v1.csv"
+}

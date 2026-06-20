@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import json
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -269,6 +272,229 @@ def show_hotspots(hotspots: pd.DataFrame) -> None:
     st.dataframe(table[cols].head(100), use_container_width=True, hide_index=True)
 
 
+def get_mappls_static_key() -> str:
+    try:
+        key = st.secrets.get("MAPPLS_STATIC_KEY", "")
+    except Exception:
+        key = ""
+    return str(key).strip()
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def check_mappls_sdk_key(mappls_key: str) -> dict:
+    sdk_url = f"https://apis.mappls.com/advancedmaps/api/{mappls_key}/map_sdk?layer=vector&v=3.0&callback=initMap"
+    try:
+        request = urllib.request.Request(
+            sdk_url,
+            headers={
+                "User-Agent": "Mozilla/5.0",
+                "Referer": "http://127.0.0.1:8501/",
+            },
+        )
+        with urllib.request.urlopen(request, timeout=8) as response:
+            content_type = response.headers.get("content-type", "")
+            return {
+                "ok": response.status == 200,
+                "status": response.status,
+                "content_type": content_type,
+                "message": "Mappls SDK key accepted.",
+            }
+    except urllib.error.HTTPError as exc:
+        body = exc.read(300).decode("utf-8", errors="replace").replace(mappls_key, "[redacted]")
+        return {
+            "ok": False,
+            "status": exc.code,
+            "content_type": exc.headers.get("content-type", ""),
+            "message": body,
+        }
+    except Exception as exc:
+        return {
+            "ok": False,
+            "status": "request_failed",
+            "content_type": "",
+            "message": str(exc).replace(mappls_key, "[redacted]"),
+        }
+
+
+def show_fallback_map(map_df: pd.DataFrame) -> None:
+    st.warning("Showing fallback map until the Mappls Web SDK credential is fixed.")
+    fallback_df = map_df.rename(columns={"latitude": "lat", "longitude": "lon"})
+    st.map(fallback_df[["lat", "lon"]], zoom=11, use_container_width=True)
+
+
+def show_mappls_heatmap(filtered: pd.DataFrame) -> None:
+    st.subheader("Mappls Risk Heatmap")
+    mappls_key = get_mappls_static_key()
+    if not mappls_key or mappls_key == "paste_your_static_key_here":
+        st.warning("Add your Mappls static key to `.streamlit/secrets.toml` to enable this map.")
+        st.code('MAPPLS_STATIC_KEY = "your_static_key_here"', language="toml")
+        st.info("Use IP / Sub-Net `127.0.0.1` in the Mappls developer console for local testing.")
+        return
+
+    required_cols = {"latitude", "longitude", "risk_score", "risk_level", "id", "event_cause"}
+    missing = required_cols - set(filtered.columns)
+    if missing:
+        st.error(f"Missing map columns: {sorted(missing)}")
+        return
+
+    map_df = filtered.dropna(subset=["latitude", "longitude"]).copy()
+    map_df = map_df[
+        map_df["latitude"].between(12.0, 14.0)
+        & map_df["longitude"].between(76.0, 78.5)
+    ]
+    if map_df.empty:
+        st.info("No mappable events match the current filters.")
+        return
+
+    max_points = st.slider("Max map points", 100, 2000, 600, step=100)
+    map_df = map_df.sort_values("risk_score", ascending=False).head(max_points)
+    st.caption("If your Mappls credential was created for IP `127.0.0.1`, open Streamlit at `http://127.0.0.1:8501` instead of `localhost:8501`.")
+
+    key_status = check_mappls_sdk_key(mappls_key)
+    if not key_status["ok"]:
+        st.error("Mappls rejected this key for the Web SDK.")
+        st.code(
+            f"status: {key_status['status']}\n"
+            f"content_type: {key_status['content_type']}\n"
+            f"message: {key_status['message']}",
+            language="text",
+        )
+        show_fallback_map(map_df)
+        return
+
+    center_lat = float(map_df["latitude"].mean())
+    center_lng = float(map_df["longitude"].mean())
+    points = []
+    for _, row in map_df.iterrows():
+        level = str(row.get("risk_level", "low"))
+        points.append(
+            {
+                "lat": float(row["latitude"]),
+                "lng": float(row["longitude"]),
+                "risk": float(row["risk_score"]),
+                "level": level,
+                "id": str(row.get("id", "")),
+                "cause": str(row.get("event_cause", "unknown")),
+                "duration": str(row.get("predicted_duration_band", "unknown")),
+                "closure": float(row.get("road_closure_probability", 0.0)),
+                "color": RISK_COLORS.get(level, "#475569"),
+            }
+        )
+
+    html = f"""
+    <!doctype html>
+    <html>
+      <head>
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0">
+        <style>
+          html, body, #map {{ margin:0; padding:0; width:100%; height:620px; background:#e5e7eb; }}
+          #map-error {{
+            display:none; position:absolute; top:14px; left:14px; right:14px; z-index:1000;
+            background:#fff1f2; color:#991b1b; border:1px solid #fecdd3; border-radius:8px;
+            padding:10px 12px; font:13px Arial, sans-serif;
+          }}
+          .legend {{
+            position:absolute; bottom:18px; left:18px; background:#fff; padding:10px 12px;
+            border-radius:8px; box-shadow:0 1px 6px rgba(15,23,42,.2); font:13px Arial;
+            z-index:999;
+          }}
+          .legend-row {{ display:flex; align-items:center; gap:7px; margin:5px 0; }}
+          .dot {{ width:11px; height:11px; border-radius:999px; display:inline-block; }}
+        </style>
+      </head>
+      <body>
+        <div id="map"></div>
+        <div id="map-error"></div>
+        <div class="legend">
+          <strong>Risk Level</strong>
+          <div class="legend-row"><span class="dot" style="background:{RISK_COLORS['critical']}"></span>Critical</div>
+          <div class="legend-row"><span class="dot" style="background:{RISK_COLORS['high']}"></span>High</div>
+          <div class="legend-row"><span class="dot" style="background:{RISK_COLORS['medium']}"></span>Medium</div>
+          <div class="legend-row"><span class="dot" style="background:{RISK_COLORS['low']}"></span>Low</div>
+        </div>
+        <script>
+          const points = {json.dumps(points)};
+          const center = [{center_lat}, {center_lng}];
+
+          function showMapError(message) {{
+            const box = document.getElementById('map-error');
+            box.style.display = 'block';
+            box.innerHTML = message;
+          }}
+
+          function addRiskMarkers(map) {{
+            points.forEach(function(p) {{
+              const radius = Math.max(6, Math.min(20, 5 + p.risk / 6));
+              const marker = new mappls.Marker({{
+                map: map,
+                position: {{ lat: p.lat, lng: p.lng }},
+                icon: {{
+                  html: '<div style="width:' + (radius * 2) + 'px;height:' + (radius * 2) + 'px;border-radius:999px;background:' + p.color + ';border:2px solid white;box-shadow:0 0 0 2px rgba(15,23,42,.15);opacity:.88"></div>',
+                  width: radius * 2,
+                  height: radius * 2
+                }}
+              }});
+
+              const popupHtml =
+                '<div style="font:13px Arial; min-width:190px">' +
+                '<b>' + p.id + '</b><br>' +
+                'Risk: <b>' + p.level.toUpperCase() + '</b> (' + p.risk.toFixed(1) + ')<br>' +
+                'Cause: ' + p.cause + '<br>' +
+                'Duration: ' + p.duration + '<br>' +
+                'Closure probability: ' + (p.closure * 100).toFixed(1) + '%' +
+                '</div>';
+              marker.addListener('click', function() {{
+                new mappls.InfoWindow({{
+                  map: map,
+                  position: {{ lat: p.lat, lng: p.lng }},
+                  content: popupHtml
+                }});
+              }});
+            }});
+          }}
+
+          window.initMap = function() {{
+            if (!window.mappls || !window.mappls.Map) {{
+              showMapError('Mappls SDK loaded, but the map object is unavailable. Check whether this static key is enabled for Web Maps.');
+              return;
+            }}
+
+            try {{
+              const map = new mappls.Map('map', {{
+                center: center,
+                zoom: 11,
+                zoomControl: true,
+                geolocation: false
+              }});
+
+              map.addListener('load', function() {{
+                addRiskMarkers(map);
+              }});
+
+              setTimeout(function() {{
+                const mapNode = document.getElementById('map');
+                if (!mapNode.querySelector('canvas') && !mapNode.querySelector('img')) {{
+                  showMapError('Mappls base map did not render. If your key is IP-restricted, open <b>http://127.0.0.1:8501</b>. Also confirm the credential has Web Map / Advanced Maps enabled.');
+                }}
+              }}, 3500);
+            }} catch (err) {{
+              showMapError('Mappls map initialization failed: ' + err.message);
+            }}
+          }}
+
+          const sdk = document.createElement('script');
+          sdk.src = 'https://apis.mappls.com/advancedmaps/api/{mappls_key}/map_sdk?layer=vector&v=3.0&callback=initMap';
+          sdk.onerror = function() {{
+            showMapError('Unable to load Mappls SDK. Check the static key and open the app from <b>http://127.0.0.1:8501</b> if the key is IP-restricted.');
+          }};
+          document.head.appendChild(sdk);
+        </script>
+      </body>
+    </html>
+    """
+    components.html(html, height=650, scrolling=False)
+
+
 def show_model_performance(
     model1_metrics: dict,
     model2_metrics: dict,
@@ -376,7 +602,7 @@ def main() -> None:
 
     filtered = filter_playbooks(playbooks)
 
-    tabs = st.tabs(["Command Board", "Playbook", "Hotspots", "Model Performance", "Pipeline"])
+    tabs = st.tabs(["Command Board", "Playbook", "Hotspots", "Mappls Heatmap", "Model Performance", "Pipeline"])
     with tabs[0]:
         show_command_board(playbooks, filtered)
     with tabs[1]:
@@ -384,8 +610,10 @@ def main() -> None:
     with tabs[2]:
         show_hotspots(hotspots)
     with tabs[3]:
-        show_model_performance(model1_metrics, model2_metrics, model2_comparison, model2_per_class)
+        show_mappls_heatmap(filtered)
     with tabs[4]:
+        show_model_performance(model1_metrics, model2_metrics, model2_comparison, model2_per_class)
+    with tabs[5]:
         show_pipeline()
 
     with st.sidebar.expander("Recommendation Summary", expanded=False):
