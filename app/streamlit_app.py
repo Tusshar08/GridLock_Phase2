@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import urllib.parse
 import urllib.request
 from datetime import datetime, time
@@ -61,9 +62,12 @@ def display_option(value: str) -> str:
 
 def get_secret(name: str) -> str:
     try:
-        return str(st.secrets.get(name, "")).strip()
+        value = str(st.secrets.get(name, "")).strip()
+        if value:
+            return value
     except Exception:
-        return ""
+        pass
+    return str(os.environ.get(name, "")).strip()
 
 
 @st.cache_data(ttl=3300)

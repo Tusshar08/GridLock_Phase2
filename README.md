@@ -88,6 +88,41 @@ Then open the local URL printed by Streamlit, usually:
 http://localhost:8501
 ```
 
+## Deploy on Render
+
+This repo includes a Render Blueprint file at `render.yaml`.
+
+1. Push the repository to GitHub.
+2. In Render, choose `New` -> `Blueprint`.
+3. Connect the GitHub repository.
+4. Render will read `render.yaml` and create the `roadguard-ai` web service.
+5. Add the required environment variables in Render:
+
+```text
+CLIENT_ID
+CLIENT_SECRET
+```
+
+Optional if you have a valid static Mappls Web SDK token:
+
+```text
+MAPPLS_STATIC_KEY
+```
+
+The Render service uses:
+
+```bash
+pip install -r render-requirements.txt
+```
+
+And starts the app with:
+
+```bash
+streamlit run app/streamlit_app.py --server.address 0.0.0.0 --server.port $PORT --server.headless true
+```
+
+If you deploy manually instead of using the Blueprint, create a Python Web Service and use the same build and start commands above.
+
 ## Main Workflow
 
 1. Open the `Response Plan` tab.
