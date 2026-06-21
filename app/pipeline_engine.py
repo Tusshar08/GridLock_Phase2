@@ -276,7 +276,7 @@ def _build_feature_row(history_df: pd.DataFrame, event: dict[str, Any]) -> pd.Se
 
 
 def load_model1_bundle(project_root: Path) -> dict[str, Any]:
-    bundle_path = project_root / "outputs" / "model1_road_closure" / "model1_inference_bundle.pkl"
+    bundle_path = project_root / "outputs" / "model_road_closure" / "model1_inference_bundle.pkl"
     if not bundle_path.exists():
         raise FileNotFoundError(f"Missing Model 1 bundle: {bundle_path}")
     return joblib.load(bundle_path)
@@ -284,7 +284,8 @@ def load_model1_bundle(project_root: Path) -> dict[str, Any]:
 
 def load_model2_artifact(project_root: Path) -> dict[str, Any]:
     candidate_paths = [
-        project_root / "outputs" / "model2_duration_band" / "model2_v1_duration_band_model.pkl",
+        project_root / "outputs" / "model_duration_band" / "model2_duration_band_inference_bundle.pkl",
+        project_root / "outputs" / "model_duration_band" / "model2_v1_duration_band_model.pkl",
         project_root / "models" / "model2_v1_duration_band_model.pkl",
     ]
     for path in candidate_paths:
@@ -412,47 +413,107 @@ def predict_model2_duration_from_model(
     model2_artifact: dict[str, Any],
     closure_probability: float,
 ) -> dict[str, Any]:
-    model = model2_artifact["model"]
-    feature_cols = list(model2_artifact.get("feature_cols", []))
-    label_encoder = model2_artifact["label_encoder"]
+    if "models" in model2_artifact:
+        class_order = [str(label) for label in model2_artifact.get("class_order", ["short", "medium", "long", "very_long"])]
+        feature_cols = list(model2_artifact.get("model_input_columns", []))
+        models = model2_artifact.get("models", {})
 
-    if not feature_cols:
-        raise ValueError("Model 2 artifact missing feature_cols.")
+        if not feature_cols:
+            raise ValueError("Model 2 artifact missing model_input_columns.")
+        if not models:
+            raise ValueError("Model 2 artifact missing models.")
 
-    x_row = pd.DataFrame([feature_row]).copy()
-    # Support either naming convention from Model 2 training notebook.
-    x_row["road_closure_probability"] = float(closure_probability)
-    x_row["model1_closure_probability"] = float(closure_probability)
+        x_row = pd.DataFrame([feature_row]).copy()
+        x_row["road_closure_probability"] = float(closure_probability)
+        x_row["model1_closure_probability"] = float(closure_probability)
+        x_model = x_row.reindex(columns=feature_cols)
 
-    x_model = x_row.reindex(columns=feature_cols)
-    for col in x_model.columns:
-        x_model[col] = pd.to_numeric(x_model[col], errors="coerce")
-    x_model = x_model.replace([np.inf, -np.inf], np.nan)
-    x_model = x_model.fillna(0.0)
+        n_classes = len(class_order)
+        component_probabilities: dict[str, np.ndarray] = {}
+        for name, component in models.items():
+            raw = np.asarray(component.predict_proba(x_model))
+            classes = np.asarray(getattr(component, "classes_", np.arange(raw.shape[1])), dtype=int)
+            aligned = np.zeros((len(raw), n_classes), dtype=float)
+            for source_index, class_code in enumerate(classes):
+                if 0 <= int(class_code) < n_classes:
+                    aligned[:, int(class_code)] = raw[:, source_index]
+            row_sums = aligned.sum(axis=1, keepdims=True)
+            component_probabilities[name] = aligned / np.where(row_sums == 0, 1.0, row_sums)
 
-    proba = np.asarray(model.predict_proba(x_model))
-    pred = np.asarray(model.predict(x_model)).astype(int).reshape(-1)
+        selected_model_type = model2_artifact.get("selected_model_type")
+        if selected_model_type in component_probabilities:
+            probabilities = component_probabilities[selected_model_type]
+        else:
+            weights = model2_artifact.get("ensemble_weights", {})
+            probabilities = sum(
+                float(weights.get(name, 0.0)) * probs
+                for name, probs in component_probabilities.items()
+            )
+            if not np.any(probabilities):
+                probabilities = sum(component_probabilities.values()) / len(component_probabilities)
+            probabilities = probabilities / probabilities.sum(axis=1, keepdims=True)
 
-    class_labels = [str(c) for c in label_encoder.classes_]
-    probs = proba[0] if proba.ndim == 2 and len(proba) else np.zeros(len(class_labels), dtype=float)
-    duration_probs = {label: float(prob) for label, prob in zip(class_labels, probs)}
+        multipliers = model2_artifact.get("class_multipliers", {label: 1.0 for label in class_order})
+        multiplier_array = np.asarray([float(multipliers.get(label, 1.0)) for label in class_order], dtype=float)
+        probabilities = probabilities * multiplier_array
+        probabilities = probabilities / probabilities.sum(axis=1, keepdims=True)
+        pred = probabilities.argmax(axis=1)
+
+        very_long_threshold = model2_artifact.get("very_long_threshold")
+        if very_long_threshold is not None and "very_long" in class_order:
+            very_long_index = class_order.index("very_long")
+            replace_mask = (pred == very_long_index) & (probabilities[:, very_long_index] < float(very_long_threshold))
+            if very_long_index > 0:
+                pred[replace_mask] = probabilities[replace_mask, :very_long_index].argmax(axis=1)
+
+        probs = probabilities[0] if probabilities.ndim == 2 and len(probabilities) else np.zeros(n_classes, dtype=float)
+        duration_probs = {label: float(prob) for label, prob in zip(class_order, probs)}
+        predicted_duration_band = class_order[int(pred[0])]
+        prediction_confidence = float(probs[int(pred[0])])
+        model_source = "model2_duration_band_inference_bundle"
+    else:
+        model = model2_artifact["model"]
+        feature_cols = list(model2_artifact.get("feature_cols", []))
+        label_encoder = model2_artifact["label_encoder"]
+
+        if not feature_cols:
+            raise ValueError("Model 2 artifact missing feature_cols.")
+
+        x_row = pd.DataFrame([feature_row]).copy()
+        # Support either naming convention from Model 2 training notebook.
+        x_row["road_closure_probability"] = float(closure_probability)
+        x_row["model1_closure_probability"] = float(closure_probability)
+
+        x_model = x_row.reindex(columns=feature_cols)
+        for col in x_model.columns:
+            x_model[col] = pd.to_numeric(x_model[col], errors="coerce")
+        x_model = x_model.replace([np.inf, -np.inf], np.nan)
+        x_model = x_model.fillna(0.0)
+
+        proba = np.asarray(model.predict_proba(x_model))
+        pred = np.asarray(model.predict(x_model)).astype(int).reshape(-1)
+
+        class_labels = [str(c) for c in label_encoder.classes_]
+        probs = proba[0] if proba.ndim == 2 and len(proba) else np.zeros(len(class_labels), dtype=float)
+        duration_probs = {label: float(prob) for label, prob in zip(class_labels, probs)}
+
+        total = float(sum(duration_probs.values()))
+        if total > 0:
+            duration_probs = {k: float(v / total) for k, v in duration_probs.items()}
+
+        predicted_duration_band = str(label_encoder.inverse_transform(pred)[0])
+        prediction_confidence = float(max(duration_probs.values())) if duration_probs else 0.0
+        model_source = "model2_v1_duration_band_model"
 
     # Ensure all expected classes are present for downstream UI/heatmap logic.
     for label in ["short", "medium", "long", "very_long"]:
         duration_probs.setdefault(label, 0.0)
 
-    total = float(sum(duration_probs.values()))
-    if total > 0:
-        duration_probs = {k: float(v / total) for k, v in duration_probs.items()}
-
-    predicted_duration_band = str(label_encoder.inverse_transform(pred)[0])
-    prediction_confidence = float(max(duration_probs.values())) if duration_probs else 0.0
-
     return {
         "predicted_duration_band": predicted_duration_band,
         "prediction_confidence": prediction_confidence,
         "duration_probs": duration_probs,
-        "model_source": "model2_v1_duration_band_model",
+        "model_source": model_source,
     }
 
 
@@ -481,23 +542,25 @@ def build_live_event_record(
 
 def _load_historical_df(project_root: Path) -> pd.DataFrame:
     handoff_candidates = [
-        project_root / "outputs" / "model1_road_closure" / "model2_duration_handoff.csv",
-        project_root / "outputs" / "model_road_closure" / "model2_duration_handoff.csv",  # backward compatibility
+        project_root / "outputs" / "model_duration_band" / "model2_v1_duration_band_recommendation_handoff.csv",
+        project_root / "outputs" / "model_road_closure" / "model2_duration_handoff.csv",
     ]
     model1_features = project_root / "outputs" / "features" / "road_closure_features_v1.csv"
-    model2_handoff = next((p for p in handoff_candidates if p.exists()), None)
+    model2_features = project_root / "outputs" / "features" / "duration_base_features_v1.csv"
 
-    if model2_handoff is not None:
-        df = pd.read_csv(model2_handoff, low_memory=False)
+    historical_path = next((p for p in handoff_candidates if p.exists()), None)
+    if historical_path is not None:
+        df = pd.read_csv(historical_path, low_memory=False)
+    elif model2_features.exists():
+        df = pd.read_csv(model2_features, low_memory=False)
     elif model1_features.exists():
         df = pd.read_csv(model1_features, low_memory=False)
     else:
-        raise FileNotFoundError(
-            "Missing historical inputs under outputs/features or outputs/model1_road_closure."
-        )
+        raise FileNotFoundError("Missing historical inputs under outputs/features or outputs/model_road_closure.")
 
     pred_candidates = [
-        project_root / "outputs" / "model2_duration_band" / "model2_v1_duration_band_predictions.csv",
+        project_root / "outputs" / "model_duration_band" / "model2_duration_band_test_predictions.csv",
+        project_root / "outputs" / "model_duration_band" / "model2_v1_duration_band_predictions.csv",
         project_root / "outputs" / "model2_v1_duration_band_predictions.csv",  # backward compatibility
     ]
     pred_path = next((p for p in pred_candidates if p.exists()), None)

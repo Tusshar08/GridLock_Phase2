@@ -17,3 +17,7 @@ Thumbs.db
 
 .env
 *.local
+.streamlit/secrets.toml
+
+outputs/recommendations/
+outputs/similarity/

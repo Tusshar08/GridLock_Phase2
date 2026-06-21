@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import urllib.parse
+import urllib.request
 from datetime import datetime, time
 from pathlib import Path
 
@@ -14,12 +16,47 @@ from pipeline_engine import build_heatmap_points, run_full_pipeline, run_live_ev
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RISK_COLORS = {"low": "#0f766e", "medium": "#ca8a04", "high": "#ea580c", "critical": "#dc2626"}
 
-st.set_page_config(page_title="EventOps AI", page_icon="🚦", layout="wide")
+st.set_page_config(page_title="RoadGuard AI", page_icon="🚦", layout="wide")
 
 
 @st.cache_resource
 def load_runtime_artifacts():
     return run_full_pipeline(PROJECT_ROOT, persist_outputs=True)
+
+
+@st.cache_data
+def load_input_reference_data() -> pd.DataFrame:
+    columns = [
+        "event_type",
+        "event_cause",
+        "corridor",
+        "police_station",
+        "junction",
+        "zone",
+        "veh_type",
+        "latitude",
+        "longitude",
+    ]
+    candidates = [
+        PROJECT_ROOT / "outputs" / "features" / "road_closure_features_v1.csv",
+        PROJECT_ROOT / "outputs" / "features" / "duration_base_features_v1.csv",
+        PROJECT_ROOT / "outputs" / "model_road_closure" / "model2_duration_handoff.csv",
+    ]
+    for path in candidates:
+        if path.exists():
+            return pd.read_csv(path, usecols=lambda col: col in columns, low_memory=False)
+    return pd.DataFrame(columns=columns)
+
+
+def clean_options(values: pd.Series) -> list[str]:
+    options = values.dropna().astype(str).str.strip()
+    options = options[options.ne("") & options.str.lower().ne("nan")]
+    unique_options = sorted(options.unique())
+    return unique_options if unique_options else ["unknown"]
+
+
+def display_option(value: str) -> str:
+    return str(value).replace("_", " ").title()
 
 
 def get_secret(name: str) -> str:
@@ -29,19 +66,40 @@ def get_secret(name: str) -> str:
         return ""
 
 
+@st.cache_data(ttl=3300)
+def fetch_mappls_oauth_token(client_id: str, client_secret: str) -> dict:
+    data = urllib.parse.urlencode(
+        {
+            "grant_type": "client_credentials",
+            "client_id": client_id,
+            "client_secret": client_secret,
+        }
+    ).encode("utf-8")
+    request = urllib.request.Request(
+        "https://outpost.mappls.com/api/security/oauth/token",
+        data=data,
+        method="POST",
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+    )
+    with urllib.request.urlopen(request, timeout=15) as response:
+        return json.loads(response.read().decode("utf-8"))
+
+
 def resolve_mappls_auth() -> dict:
-    # Runtime OAuth generation is intentionally disabled; use pre-provisioned secret only.
+    client_id = get_secret("CLIENT_ID")
+    client_secret = get_secret("CLIENT_SECRET")
+    if client_id and client_secret:
+        try:
+            token_result = fetch_mappls_oauth_token(client_id, client_secret)
+            access_token = str(token_result.get("access_token", "")).strip()
+            if access_token:
+                return {"ok": True, "access_token": access_token, "source": "oauth_client_credentials"}
+        except Exception as exc:
+            return {"ok": False, "source": "oauth_error", "error": f"Mappls OAuth token generation failed: {exc}"}
+
     static_key = get_secret("MAPPLS_STATIC_KEY") or get_secret("MAPPLS_ACCESS_TOKEN")
     if static_key:
         return {"ok": True, "access_token": static_key, "source": "secrets_static_key"}
-
-    has_oauth_pair = bool(get_secret("CLIENT_ID") and get_secret("CLIENT_SECRET"))
-    if has_oauth_pair:
-        return {
-            "ok": False,
-            "source": "oauth_disabled",
-            "error": "CLIENT_ID and CLIENT_SECRET are present, but runtime OAuth token generation is disabled. Add MAPPLS_STATIC_KEY to .streamlit/secrets.toml.",
-        }
 
     return {
         "ok": False,
@@ -50,58 +108,40 @@ def resolve_mappls_auth() -> dict:
     }
 
 
-def event_input_form(history_df: pd.DataFrame) -> dict:
-    st.subheader("New Event Input")
-    st.caption("Input fields feed the complete chain: Model1 -> Model2 -> hotspot analytics -> similarity retrieval -> recommendation engine.")
+def event_input_form(history_df: pd.DataFrame, input_reference_df: pd.DataFrame | None = None) -> dict:
+    st.subheader("Report a New Traffic Event")
+    st.caption("Enter what is known now. The app will estimate risk and suggest the first response plan.")
 
-    # Constrain location selectors to historically valid combinations so hotspot mapping is meaningful.
-    location_df = (
-        history_df[["corridor", "police_station", "junction"]]
-        .dropna()
-        .astype(str)
-        .drop_duplicates()
-        .reset_index(drop=True)
-    )
+    input_df = input_reference_df if input_reference_df is not None and not input_reference_df.empty else history_df
+    selector_df = pd.concat([input_df, history_df], ignore_index=True, sort=False)
+    for col in ["corridor", "police_station", "junction", "zone"]:
+        if col not in selector_df.columns:
+            selector_df[col] = "unknown"
 
     with st.form("event_input"):
         c1, c2, c3 = st.columns(3)
         with c1:
-            event_type = st.selectbox("event_type", sorted(history_df["event_type"].dropna().astype(str).unique()), index=0)
-            event_cause = st.selectbox("event_cause", sorted(history_df["event_cause"].dropna().astype(str).unique()), index=0)
-            start_date = st.date_input("start_datetime (date)", value=datetime.now().date())
-            start_clock = st.time_input("start_datetime (time)", value=time(18, 0))
+            event_type = st.selectbox("Event type", clean_options(selector_df["event_type"]), index=0, format_func=display_option)
+            event_cause = st.selectbox("Main cause", clean_options(selector_df["event_cause"]), index=0, format_func=display_option)
+            start_date = st.date_input("Event date", value=datetime.now().date())
+            start_clock = st.time_input("Event time", value=time(18, 0))
         with c2:
-            created_date = st.date_input("created_date", value=datetime.now().date())
-            latitude = st.number_input("latitude", value=float(pd.to_numeric(history_df["latitude"], errors="coerce").median()), format="%.6f")
-            longitude = st.number_input("longitude", value=float(pd.to_numeric(history_df["longitude"], errors="coerce").median()), format="%.6f")
+            created_date = st.date_input("Reported date", value=datetime.now().date())
+            latitude = st.number_input("Latitude", value=float(pd.to_numeric(selector_df["latitude"], errors="coerce").median()), format="%.6f")
+            longitude = st.number_input("Longitude", value=float(pd.to_numeric(selector_df["longitude"], errors="coerce").median()), format="%.6f")
         with c3:
-            corridor_options = sorted(location_df["corridor"].unique()) if not location_df.empty else sorted(history_df["corridor"].dropna().astype(str).unique())
-            corridor = st.selectbox("corridor", corridor_options, index=0)
-
-            corridor_rows = location_df[location_df["corridor"] == corridor]
-            police_options = (
-                sorted(corridor_rows["police_station"].unique())
-                if not corridor_rows.empty
-                else sorted(history_df["police_station"].dropna().astype(str).unique())
-            )
-            police_station = st.selectbox("police_station", police_options, index=0)
-
-            combo_rows = corridor_rows[corridor_rows["police_station"] == police_station]
-            junction_options = (
-                sorted(combo_rows["junction"].unique())
-                if not combo_rows.empty
-                else sorted(corridor_rows["junction"].unique()) if not corridor_rows.empty else sorted(history_df["junction"].dropna().astype(str).unique())
-            )
-            junction = st.selectbox("junction", junction_options, index=0)
+            corridor = st.selectbox("Road corridor", clean_options(selector_df["corridor"]), index=0, format_func=display_option)
+            police_station = st.selectbox("Police station", clean_options(selector_df["police_station"]), index=0, format_func=display_option)
+            junction = st.selectbox("Junction", clean_options(selector_df["junction"]), index=0, format_func=display_option)
 
         c4, c5 = st.columns(2)
         with c4:
-            zone = st.selectbox("zone", sorted(history_df["zone"].dropna().astype(str).unique()), index=0)
+            zone = st.selectbox("City zone", clean_options(selector_df["zone"]), index=0, format_func=display_option)
         with c5:
-            veh_type = st.selectbox("veh_type", sorted(history_df["veh_type"].dropna().astype(str).unique()), index=0)
+            veh_type = st.selectbox("Vehicle type", clean_options(selector_df["veh_type"]), index=0, format_func=display_option)
 
-        description = st.text_area("description", value="Traffic obstruction reported near major junction, congestion expected.")
-        submitted = st.form_submit_button("Run Full Workflow", type="primary")
+        description = st.text_area("What happened?", value="Traffic obstruction reported near major junction, congestion expected.")
+        submitted = st.form_submit_button("Get Response Plan", type="primary")
 
     return {
         "submitted": submitted,
@@ -210,7 +250,7 @@ def show_mappls_heatmap(points: list[dict], center: tuple[float, float], token: 
         <div id="map-wrap">
           <div id="map"></div>
           <canvas id="heat-canvas"></canvas>
-          <div class="note">Risk density = closure probability + long-duration likelihood</div>
+          <div class="note">Darker areas may need faster attention</div>
           <div class="legend">
             <strong>Heat Intensity</strong>
             <div class="gradient"></div>
@@ -309,28 +349,20 @@ def show_mappls_heatmap(points: list[dict], center: tuple[float, float], token: 
 
 
 def main() -> None:
-    st.title("EventOps AI Command Board")
-    st.caption("Dashboard-only UI. All model and analytics logic runs inside pipeline engine.")
+    st.title("RoadGuard AI")
+    st.caption("Quick risk estimate, response guidance, and hotspot view for traffic events.")
 
     artifacts = load_runtime_artifacts()
     df = artifacts.risk_playbooks
+    input_reference_df = load_input_reference_data()
 
     token_result = resolve_mappls_auth()
     access_token = token_result.get("access_token") if token_result.get("ok") else None
 
-    with st.sidebar:
-      st.header("Mappls")
-      if access_token:
-        st.success("Map key loaded from secrets.toml")
-      else:
-        st.warning("Mappls token unavailable")
-        if token_result.get("error"):
-          st.caption(token_result["error"])
-
-    tab_input, tab_map, tab_heatmap, tab_data = st.tabs(["Input + Predictions", "Mappls Map", "Risk Heatmap", "Pipeline Data"])
+    tab_input, tab_heatmap = st.tabs(["Response Plan", "Hotspot View"])
 
     with tab_input:
-        event = event_input_form(df)
+        event = event_input_form(df, input_reference_df)
         if event["submitted"]:
             result = run_live_event_workflow(PROJECT_ROOT, artifacts, event)
             st.session_state["latest_result"] = result
@@ -349,121 +381,94 @@ def main() -> None:
               confidence_note = "Low"
 
             c1, c2, c3, c4 = st.columns(4)
-            c1.metric("Risk Level", str(rec["risk_level"]).upper())
+            c1.metric("Overall Risk", str(rec["risk_level"]).upper())
             c2.metric("Risk Score", f"{float(rec['risk_score']):.1f}/100")
-            c3.metric("Road Closure Probability", f"{closure_probability * 100:.2f}%")
-            c4.metric("Duration Band Prediction", predicted_band)
+            c3.metric("Chance of Road Closure", f"{closure_probability * 100:.1f}%")
+            c4.metric("Expected Clearance Time", predicted_band)
 
-            st.subheader("Prediction Summary")
+            st.subheader("Situation Snapshot")
             s1, s2, s3 = st.columns(3)
-            s1.info(f"Prediction Confidence: {prediction_confidence * 100:.1f}% ({confidence_note})")
-            s2.info(f"Hotspot Level: {str(rec.get('hotspot_level', 'n/a')).replace('_', ' ').title()}")
-            s3.info(f"Hotspot Score: {float(rec.get('hotspot_score', 0.0)):.2f}")
+            s1.info(f"Reliability of this estimate: {prediction_confidence * 100:.1f}% ({confidence_note})")
+            s2.info(f"Past activity in this area: {str(rec.get('hotspot_level', 'n/a')).replace('_', ' ').title()}")
+            s3.info(f"Local pressure score: {float(rec.get('hotspot_score', 0.0)):.2f}")
 
-            st.subheader("Operational Response Plan")
+            st.subheader("Recommended Field Plan")
             manpower = str(rec.get("manpower") or "2 officers + 1 patrol unit")
             barricading = str(rec.get("barricading") or "Local channelization with cones/signage near incident point.")
             diversion = str(rec.get("diversion") or "Prepare local diversion if queue spills to adjacent junction.")
             control_room = str(rec.get("control_room") or "Notify station control and monitor every 15 minutes.")
             equipment = str(rec.get("equipment") or "reflective jackets, traffic cones")
 
-            o1, o2 = st.columns(2)
-            with o1:
-              st.markdown(f"**Manpower**\n\n{manpower}")
-              st.markdown(f"**Barricading**\n\n{barricading}")
-              st.markdown(f"**Diversion**\n\n{diversion}")
-            with o2:
-              st.markdown(f"**Control Room**\n\n{control_room}")
-              st.markdown(f"**Equipment**\n\n{equipment}")
-
-            probs = pd.DataFrame(
-                [{"duration_band": key, "probability": value} for key, value in result.model2_prediction["duration_probs"].items()]
+            field_plan = pd.DataFrame(
+                [
+                    {"Area": "People to send", "Recommendation": manpower},
+                    {"Area": "Barricading", "Recommendation": barricading},
+                    {"Area": "Diversion plan", "Recommendation": diversion},
+                    {"Area": "Control room update", "Recommendation": control_room},
+                    {"Area": "Equipment to carry", "Recommendation": equipment},
+                ]
             )
-            st.bar_chart(probs, x="duration_band", y="probability", color="#2563eb")
+            st.dataframe(field_plan, use_container_width=True, hide_index=True)
 
-            st.subheader("Similar Historical Incidents")
-            cols = [
-                "id",
-                "start_datetime",
-                "event_type",
-                "event_cause",
-                "corridor",
-                "police_station",
-                "junction",
-                "zone",
-                "veh_type",
-                "road_closure_probability",
-                "predicted_duration_band",
-                "risk_level",
-                "risk_score",
-                "similarity_score",
-            ]
-            cols = [c for c in cols if c in result.similar_incidents.columns]
-            st.dataframe(result.similar_incidents[cols].head(10), use_container_width=True, hide_index=True)
+            st.subheader("Priority Actions")
+            action_items = []
+            if closure_probability >= 0.50:
+                action_items.append("Keep one diversion route ready before traffic backs up.")
+            else:
+                action_items.append("Monitor the approach roads and prepare diversion only if queues start building.")
+            if str(rec.get("risk_level", "")).lower() in {"high", "critical"}:
+                action_items.append("Send the first response team immediately and update the control room after arrival.")
+            else:
+                action_items.append("Assign a patrol unit and reassess once the field team confirms the scene.")
+            if predicted_band.lower() in {"long", "very long", "very_long"}:
+                action_items.append("Plan for a longer clearance window and alert nearby junction teams.")
+            else:
+                action_items.append("Expect a shorter clearance window, but keep equipment ready in case the scene escalates.")
+            if float(rec.get("hotspot_score", 0.0)) >= 50:
+                action_items.append("Treat this as a known pressure point and watch spillover at nearby junctions.")
+            action_cols = st.columns(len(action_items))
+            for index, (column, item) in enumerate(zip(action_cols, action_items), start=1):
+                with column:
+                    st.info(f"Step {index}\n\n{item}")
+
+            st.subheader("Similar Past Events")
+            similar_cols = {
+                "start_datetime": "When",
+                "event_cause": "Cause",
+                "corridor": "Corridor",
+                "police_station": "Police Station",
+                "junction": "Junction",
+                "zone": "Zone",
+                "predicted_duration_band": "Clearance Time",
+                "risk_level": "Risk",
+                "risk_score": "Score",
+            }
+            cols = [c for c in similar_cols if c in result.similar_incidents.columns]
+            st.dataframe(
+                result.similar_incidents[cols].head(10).rename(columns=similar_cols),
+                use_container_width=True,
+                hide_index=True,
+            )
 
             st.download_button(
-                "Download Current Prediction CSV",
+                "Download Response Details",
                 data=result.recommendation_row.to_csv(index=False).encode("utf-8"),
-                file_name="eventops_current_prediction.csv",
+                file_name="roadguard_ai_response_details.csv",
                 mime="text/csv",
             )
         else:
-            st.info("Fill the event fields and click Run Full Workflow.")
-
-    with tab_map:
-        st.subheader("Mappls Event View")
-        latest_result = st.session_state.get("latest_result")
-        if latest_result is not None:
-            rec = latest_result.recommendation_row.iloc[0]
-            event_row = latest_result.event_row.iloc[0]
-            level = str(rec["risk_level"])
-            points = [
-                {
-                    "latitude": float(event_row["latitude"]),
-                    "longitude": float(event_row["longitude"]),
-                    "title": "New input event",
-                    "subtitle": f"{level.upper()} risk | {rec['predicted_duration_band']}",
-                    "color": RISK_COLORS[level],
-                    "is_input": True,
-                }
-            ]
-            for _, row in latest_result.similar_incidents.head(30).iterrows():
-                points.append(
-                    {
-                        "latitude": float(row.get("latitude", event_row["latitude"])),
-                        "longitude": float(row.get("longitude", event_row["longitude"])),
-                        "title": str(row.get("id", "Historical event")),
-                        "subtitle": f"{row.get('event_cause', 'unknown')} | {row.get('predicted_duration_band', 'unknown')}",
-                        "color": "#64748b",
-                        "is_input": False,
-                    }
-                )
-            show_mappls_map(points, (float(event_row["latitude"]), float(event_row["longitude"])), access_token)
-        else:
-            sample = df.sort_values("road_closure_probability", ascending=False).head(100)
-            points = [
-                {
-                    "latitude": float(row["latitude"]),
-                    "longitude": float(row["longitude"]),
-                    "title": str(row.get("id", "Historical event")),
-                    "subtitle": f"{row.get('event_cause', 'unknown')} | closure {float(row.get('road_closure_probability', 0)) * 100:.1f}%",
-                    "color": "#2563eb",
-                    "is_input": False,
-                }
-                for _, row in sample.iterrows()
-            ]
-            show_mappls_map(points, (float(sample["latitude"].mean()), float(sample["longitude"].mean())), access_token)
+            st.info("Fill the event details and click Get Response Plan.")
 
     with tab_heatmap:
-        st.subheader("Mappls Risk Heatmap")
-        st.caption("Hotspot analytics from the pipeline are rendered on Mappls heatmap. Live event impact is overlaid in blue glow.")
+        st.subheader("City Hotspots")
+        st.caption("Use this view to see where events may need extra attention. Your latest reported event is highlighted when available.")
         c1, c2, c3 = st.columns(3)
         with c1:
-            max_points = st.slider("Heatmap events", 100, 2000, 800, step=100)
+            max_points = st.slider("Events to show", 100, 2000, 800, step=100)
         with c2:
-            selected_causes = st.multiselect("Cause filter", sorted(df["event_cause"].unique()))
+            selected_causes = st.multiselect("Show only these causes", sorted(df["event_cause"].unique()), format_func=display_option)
         with c3:
-            selected_corridors = st.multiselect("Corridor filter", sorted(df["corridor"].unique()))
+            selected_corridors = st.multiselect("Show only these corridors", sorted(df["corridor"].unique()), format_func=display_option)
 
         live_event_row = None
         latest_result = st.session_state.get("latest_result")
@@ -483,27 +488,8 @@ def main() -> None:
                 sum(point["longitude"] for point in heat_points) / len(heat_points),
             )
             show_mappls_heatmap(heat_points, center, access_token)
-
-            heat_table = pd.DataFrame(heat_points)
-            st.write("**Top heat contributors**")
-            st.dataframe(
-                heat_table.sort_values("weight", ascending=False).head(20),
-                use_container_width=True,
-                hide_index=True,
-            )
         else:
             st.info("No heatmap points match the current filters.")
-
-    with tab_data:
-        st.subheader("Pipeline Artifacts")
-        st.write(f"Historical rows used: {len(df):,}")
-        st.dataframe(df.head(200), use_container_width=True, hide_index=True)
-
-        st.subheader("Recommendation Summary")
-        st.dataframe(artifacts.recommendation_summary, use_container_width=True, hide_index=True)
-        st.subheader("Hotspot Summary")
-        st.dataframe(artifacts.hotspot_summary.head(200), use_container_width=True, hide_index=True)
-
 
 if __name__ == "__main__":
     main()
