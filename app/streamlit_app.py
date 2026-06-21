@@ -1,86 +1,25 @@
 from __future__ import annotations
 
 import json
-import math
-import urllib.error
-import urllib.parse
-import urllib.request
 from datetime import datetime, time
 from pathlib import Path
 
 import pandas as pd
 import streamlit as st
 import streamlit.components.v1 as components
-import joblib
+
+from pipeline_engine import build_heatmap_points, run_full_pipeline, run_live_event_workflow
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-HANDOFF_PATH = PROJECT_ROOT / "outputs" / "model_duration_band" / "model2_v1_duration_band_recommendation_handoff.csv"
-MODEL2_FEATURE_PATH = PROJECT_ROOT / "outputs" / "model_road_closure" / "model2_duration_handoff.csv"
-MODEL2_MODEL_PATH = PROJECT_ROOT / "outputs" / "model_duration_band" / "model2_v1_duration_band_model.pkl"
-EVENT_LOG_PATH = PROJECT_ROOT / "outputs" / "live_events" / "event_recommendation_log.csv"
-BENGALURU_CENTER = (12.9716, 77.5946)
-
-DURATION_ORDER = ["short", "medium", "long", "very_long"]
-RISK_COLORS = {
-    "low": "#0f766e",
-    "medium": "#ca8a04",
-    "high": "#ea580c",
-    "critical": "#dc2626",
-}
+RISK_COLORS = {"low": "#0f766e", "medium": "#ca8a04", "high": "#ea580c", "critical": "#dc2626"}
 
 st.set_page_config(page_title="EventOps AI", page_icon="🚦", layout="wide")
 
 
-@st.cache_data
-def load_handoff_data() -> pd.DataFrame:
-    df = pd.read_csv(HANDOFF_PATH)
-    df = df.dropna(subset=["latitude", "longitude"]).copy()
-    for column in ["event_cause", "corridor", "police_station", "zone", "veh_type", "event_type", "junction"]:
-        if column in df.columns:
-            df[column] = df[column].fillna("unknown").astype(str)
-    return df
-
-
-@st.cache_data
-def load_model2_feature_data() -> pd.DataFrame:
-    df = pd.read_csv(MODEL2_FEATURE_PATH)
-    df = df.dropna(subset=["latitude", "longitude"]).copy()
-    for column in ["event_cause", "corridor", "police_station", "zone", "veh_type", "event_type", "junction"]:
-        if column in df.columns:
-            df[column] = df[column].fillna("unknown").astype(str)
-    return df
-
-
 @st.cache_resource
-def load_model2_bundle() -> dict:
-    return joblib.load(MODEL2_MODEL_PATH)
-
-
-@st.cache_data(ttl=23 * 60 * 60, show_spinner=False)
-def get_mappls_access_token(client_id: str, client_secret: str) -> dict:
-    token_url = "https://outpost.mappls.com/api/security/oauth/token"
-    payload = urllib.parse.urlencode(
-        {
-            "grant_type": "client_credentials",
-            "client_id": client_id,
-            "client_secret": client_secret,
-        }
-    ).encode()
-    request = urllib.request.Request(
-        token_url,
-        data=payload,
-        headers={"Content-Type": "application/x-www-form-urlencoded", "User-Agent": "Mozilla/5.0"},
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=15) as response:
-            data = json.loads(response.read().decode("utf-8"))
-            return {"ok": True, "access_token": data.get("access_token", ""), "expires_in": data.get("expires_in")}
-    except urllib.error.HTTPError as exc:
-        body = exc.read(300).decode("utf-8", errors="replace")
-        return {"ok": False, "error": f"HTTP {exc.code}: {body}"}
-    except Exception as exc:
-        return {"ok": False, "error": str(exc)}
+def load_runtime_artifacts():
+    return run_full_pipeline(PROJECT_ROOT, persist_outputs=True)
 
 
 def get_secret(name: str) -> str:
@@ -90,363 +29,85 @@ def get_secret(name: str) -> str:
         return ""
 
 
-def haversine_km(lat1: float, lon1: float, lat2: pd.Series, lon2: pd.Series) -> pd.Series:
-    radius = 6371.0
-    phi1 = math.radians(lat1)
-    phi2 = lat2.map(math.radians)
-    d_phi = (lat2 - lat1).map(math.radians)
-    d_lam = (lon2 - lon1).map(math.radians)
-    a = (d_phi / 2).map(math.sin) ** 2 + math.cos(phi1) * phi2.map(math.cos) * (d_lam / 2).map(math.sin) ** 2
-    return 2 * radius * a.map(lambda value: math.atan2(math.sqrt(value), math.sqrt(max(0.0, 1 - value))))
+def resolve_mappls_auth() -> dict:
+    # Runtime OAuth generation is intentionally disabled; use pre-provisioned secret only.
+    static_key = get_secret("MAPPLS_STATIC_KEY") or get_secret("MAPPLS_ACCESS_TOKEN")
+    if static_key:
+        return {"ok": True, "access_token": static_key, "source": "secrets_static_key"}
 
-
-def risk_level(score: float) -> str:
-    if score >= 75:
-        return "critical"
-    if score >= 55:
-        return "high"
-    if score >= 35:
-        return "medium"
-    return "low"
-
-
-def recommend_manpower(level: str, duration: str, closure_probability: float) -> dict:
-    if level == "critical":
-        manpower = "12-16 officers + rapid response unit"
-        barricading = "Full barricading kit at primary and secondary approach roads"
-        diversion = "Activate pre-approved diversion plan and broadcast alerts"
-    elif level == "high":
-        manpower = "8-10 officers"
-        barricading = "Partial barricading at choke points"
-        diversion = "Prepare diversion; activate if queue spillback starts"
-    elif level == "medium":
-        manpower = "4-6 officers"
-        barricading = "Cones and mobile barricades on standby"
-        diversion = "Monitor corridor; push advisory if congestion rises"
-    else:
-        manpower = "2-3 officers"
-        barricading = "No fixed barricading; keep patrol mobile"
-        diversion = "No diversion required"
-
-    if duration in {"long", "very_long"}:
-        diversion += "; keep plan active for extended duration"
-    if closure_probability >= 0.65:
-        barricading += "; include closure-control signage"
+    has_oauth_pair = bool(get_secret("CLIENT_ID") and get_secret("CLIENT_SECRET"))
+    if has_oauth_pair:
+        return {
+            "ok": False,
+            "source": "oauth_disabled",
+            "error": "CLIENT_ID and CLIENT_SECRET are present, but runtime OAuth token generation is disabled. Add MAPPLS_STATIC_KEY to .streamlit/secrets.toml.",
+        }
 
     return {
-        "manpower": manpower,
-        "barricading": barricading,
-        "diversion": diversion,
-        "alerts": "Traffic control room, nearest police station, civic response team",
+        "ok": False,
+        "source": "missing_secret",
+        "error": "Missing MAPPLS_STATIC_KEY in .streamlit/secrets.toml.",
     }
 
 
-def text_risk_flags(description: str) -> dict:
-    text = str(description).lower()
-    blocked_terms = ["blocked", "block", "closed", "closure", "obstruction", "stuck"]
-    jam_terms = ["jam", "congestion", "heavy traffic", "slow traffic", "queue"]
-    severity_terms = ["major", "severe", "huge", "massive", "critical", "urgent"]
-    diversion_terms = ["diversion", "divert", "reroute"]
-    public_terms = ["rally", "protest", "procession", "festival", "vip", "public", "gathering"]
-    return {
-        "has_blocked_word": any(term in text for term in blocked_terms),
-        "has_jam_word": any(term in text for term in jam_terms),
-        "has_severity_word": any(term in text for term in severity_terms),
-        "has_diversion_word": any(term in text for term in diversion_terms),
-        "has_public_event_word": any(term in text for term in public_terms),
-    }
-
-
-def parse_event_datetime(value: str) -> datetime | None:
-    try:
-        return pd.to_datetime(value).to_pydatetime()
-    except Exception:
-        return None
-
-
-def choose_feature_template(feature_df: pd.DataFrame, event: dict) -> pd.Series:
-    candidates = feature_df.copy()
-    candidates["distance_km"] = haversine_km(
-        event["latitude"],
-        event["longitude"],
-        candidates["latitude"],
-        candidates["longitude"],
-    )
-    candidates["match_score"] = 0.0
-    for column, weight in [
-        ("event_cause", 2.0),
-        ("corridor", 1.5),
-        ("police_station", 1.0),
-        ("junction", 1.0),
-        ("zone", 0.9),
-        ("veh_type", 0.8),
-        ("event_type", 0.75),
-    ]:
-        if column in candidates.columns:
-            candidates["match_score"] += (candidates[column].astype(str) == str(event[column])).astype(float) * weight
-    candidates["similarity_score"] = candidates["match_score"] - candidates["distance_km"].clip(0, 20) / 8
-    return candidates.sort_values(["similarity_score", "distance_km"], ascending=[False, True]).iloc[0].copy()
-
-
-def build_model2_feature_row(feature_df: pd.DataFrame, event: dict, closure_probability: float) -> pd.Series:
-    row = choose_feature_template(feature_df, event)
-    event_dt = parse_event_datetime(event["start_datetime"]) or datetime.now()
-    created_dt = parse_event_datetime(event["created_date"]) or event_dt
-    flags = text_risk_flags(event["description"])
-    text = str(event["description"] or "")
-
-    row["latitude"] = event["latitude"]
-    row["longitude"] = event["longitude"]
-    row["lat_round_3"] = round(event["latitude"], 3)
-    row["lon_round_3"] = round(event["longitude"], 3)
-    row["distance_to_city_center_km"] = float(
-        haversine_km(event["latitude"], event["longitude"], pd.Series([BENGALURU_CENTER[0]]), pd.Series([BENGALURU_CENTER[1]])).iloc[0]
-    )
-    row["start_hour"] = event_dt.hour
-    row["start_dayofweek"] = event_dt.weekday()
-    row["start_month_number"] = event_dt.month
-    row["start_weekofyear"] = int(event_dt.isocalendar().week)
-    row["is_weekend"] = int(event_dt.weekday() >= 5)
-    row["is_morning_peak"] = int(event_dt.hour in {8, 9, 10})
-    row["is_evening_peak"] = int(event_dt.hour in {17, 18, 19, 20})
-    row["is_peak_hour"] = int(row["is_morning_peak"] or row["is_evening_peak"])
-    row["is_night"] = int(event_dt.hour >= 22 or event_dt.hour <= 5)
-    row["hour_sin"] = math.sin(2 * math.pi * event_dt.hour / 24)
-    row["hour_cos"] = math.cos(2 * math.pi * event_dt.hour / 24)
-    row["day_sin"] = math.sin(2 * math.pi * event_dt.weekday() / 7)
-    row["day_cos"] = math.cos(2 * math.pi * event_dt.weekday() / 7)
-    report_lag = max(0.0, (event_dt - created_dt).total_seconds() / 60)
-    row["report_lag_minutes_clipped"] = min(report_lag, 24 * 60)
-    row["report_lag_hours_clipped"] = min(report_lag / 60, 24)
-    row["description_missing"] = int(not text.strip())
-    row["text_length"] = len(text)
-    row["description_char_length"] = len(text)
-    row["description_word_count"] = len(text.split())
-    row["has_non_ascii_text"] = int(any(ord(char) > 127 for char in text))
-    row["has_kannada_text"] = int(any("\u0c80" <= char <= "\u0cff" for char in text))
-    row["has_accident_word"] = int("accident" in text.lower() or "crash" in text.lower())
-    row["has_breakdown_word"] = int("breakdown" in text.lower())
-    row["has_water_word"] = int("water" in text.lower() or "flood" in text.lower() or "rain" in text.lower())
-    row["has_construction_word"] = int("construction" in text.lower() or "work" in text.lower())
-    row["has_event_word"] = int(flags["has_public_event_word"])
-    row["has_blocked_word"] = int(flags["has_blocked_word"])
-    row["has_jam_word"] = int(flags["has_jam_word"])
-    row["has_vip_word"] = int("vip" in text.lower())
-    row["has_location_hint_word"] = int(any(term in text.lower() for term in ["near", "junction", "road", "circle", "signal"]))
-    row["is_planned_event"] = int(event["event_type"] == "planned")
-    row["is_public_or_vip_event"] = int(flags["has_public_event_word"])
-    row["is_breakdown_event"] = int(event["event_cause"] == "vehicle_breakdown" or row["has_breakdown_word"])
-    row["is_accident_event"] = int(event["event_cause"] == "accident" or row["has_accident_word"])
-    row["is_weather_or_visibility_event"] = int(row["has_water_word"] or "weather" in str(event["event_cause"]))
-    row["is_road_condition_event"] = int(any(term in str(event["event_cause"]) for term in ["road", "pothole", "water"]))
-    row["has_vehicle_type"] = int(event["veh_type"] != "unknown")
-    row["is_truck"] = int("truck" in str(event["veh_type"]).lower())
-    row["is_bus"] = int("bus" in str(event["veh_type"]).lower())
-    row["is_heavy_vehicle"] = int(row["is_truck"] or row["is_bus"] or "heavy" in str(event["veh_type"]).lower())
-
-    peak_period = "morning_peak" if row["is_morning_peak"] else "evening_peak" if row["is_evening_peak"] else "night" if row["is_night"] else "off_peak"
-    row["event_type"] = event["event_type"]
-    row["event_cause"] = event["event_cause"]
-    row["veh_type"] = event["veh_type"]
-    row["corridor"] = event["corridor"]
-    row["police_station"] = event["police_station"]
-    row["zone"] = event["zone"]
-    row["junction"] = event["junction"]
-    row["location_grid"] = f"{row['lat_round_3']:.3f}_{row['lon_round_3']:.3f}"
-    row["peak_period"] = peak_period
-    row["start_day_name"] = event_dt.strftime("%A").lower()
-    row["start_month_name"] = event_dt.strftime("%B").lower()
-    row["event_cause_corridor"] = f"{event['event_cause']}_{event['corridor']}"
-    row["cause_peak_interaction"] = f"{event['event_cause']}_{peak_period}"
-    row["zone_cause_interaction"] = f"{event['zone']}_{event['event_cause']}"
-    row["corridor_cause_interaction"] = f"{event['corridor']}_{event['event_cause']}"
-    row["cause_heavy_vehicle_interaction"] = f"{event['event_cause']}_heavy_{row['is_heavy_vehicle']}"
-    row["corridor_peak_interaction"] = f"{event['corridor']}_{peak_period}"
-    row["cause_hour_interaction"] = f"{event['event_cause']}_{event_dt.hour}"
-    row["vehicle_cause_interaction"] = f"{event['veh_type']}_{event['event_cause']}"
-    row["cargo_vehicle_interaction"] = f"{event['veh_type']}_{event['veh_type']}"
-    row["planned_peak_interaction"] = f"{event['event_type']}_{peak_period}"
-    row["weather_zone_interaction"] = f"weather_{row['is_weather_or_visibility_event']}_{event['zone']}"
-    row["road_closure_probability"] = closure_probability
-    row["road_closure_probability_is_history_fallback"] = 0
-    return row
-
-
-def predict_duration_with_model2(bundle: dict, feature_df: pd.DataFrame, event: dict, closure_probability: float) -> dict:
-    feature_cols = bundle["feature_cols"]
-    model = bundle["model"]
-    label_encoder = bundle["label_encoder"]
-    row = build_model2_feature_row(feature_df, event, closure_probability)
-    event_x = row.to_frame().T.reindex(columns=feature_cols)
-    for col in event_x.columns:
-        event_x[col] = pd.to_numeric(event_x[col], errors="coerce")
-    event_x = event_x.replace([float("inf"), float("-inf")], pd.NA)
-    medians = feature_df.reindex(columns=feature_cols).apply(pd.to_numeric, errors="coerce").median(numeric_only=True)
-    event_x = event_x.fillna(medians).fillna(0)
-    proba = model.predict_proba(event_x)[0]
-    pred = model.predict(event_x)
-    labels = list(label_encoder.classes_)
-    duration = str(label_encoder.inverse_transform(pred)[0])
-    return {
-        "duration": duration,
-        "duration_probs": {label: float(prob) for label, prob in zip(labels, proba)},
-        "prediction_confidence": float(max(proba)),
-        "model_source": "live_model2_predict_proba",
-    }
-
-
-def flatten_recommendation(event: dict, recommendation: dict) -> dict:
-    row = {
-        "logged_at": datetime.now().isoformat(timespec="seconds"),
-        **event,
-        "risk_score": round(float(recommendation["risk_score"]), 4),
-        "risk_level": recommendation["risk_level"],
-        "closure_probability": round(float(recommendation["closure_probability"]), 6),
-        "predicted_duration": recommendation["duration"],
-        "manpower": recommendation["manpower"],
-        "barricading": recommendation["barricading"],
-        "diversion": recommendation["diversion"],
-        "alerts": recommendation["alerts"],
-    }
-    for key, value in recommendation["duration_probs"].items():
-        row[f"prob_{key}"] = round(float(value), 6)
-    for key, value in recommendation["text_flags"].items():
-        row[key] = bool(value)
-    return row
-
-
-def append_event_log(event: dict, recommendation: dict) -> Path:
-    EVENT_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
-    row = flatten_recommendation(event, recommendation)
-    log_df = pd.DataFrame([row])
-    should_write_header = not EVENT_LOG_PATH.exists()
-    log_df.to_csv(EVENT_LOG_PATH, mode="a", index=False, header=should_write_header)
-    return EVENT_LOG_PATH
-
-
-@st.cache_data
-def load_event_log() -> pd.DataFrame:
-    if not EVENT_LOG_PATH.exists():
-        return pd.DataFrame()
-    return pd.read_csv(EVENT_LOG_PATH)
-
-
-def session_log_df() -> pd.DataFrame:
-    rows = st.session_state.get("session_event_log", [])
-    return pd.DataFrame(rows)
-
-
-def build_recommendation(
-    df: pd.DataFrame,
-    feature_df: pd.DataFrame,
-    model2_bundle: dict,
-    event: dict,
-) -> tuple[dict, pd.DataFrame]:
-    candidates = df.copy()
-    candidates["distance_km"] = haversine_km(
-        event["latitude"],
-        event["longitude"],
-        candidates["latitude"],
-        candidates["longitude"],
-    )
-    candidates["match_score"] = 0.0
-    for column, weight in [
-        ("event_cause", 2.0),
-        ("corridor", 1.5),
-        ("police_station", 1.0),
-        ("junction", 1.0),
-        ("zone", 0.9),
-        ("veh_type", 0.8),
-        ("event_type", 0.75),
-    ]:
-        candidates["match_score"] += (candidates[column].astype(str) == str(event[column])).astype(float) * weight
-
-    event_dt = parse_event_datetime(event["start_datetime"])
-    if event_dt is not None and "start_hour" in candidates.columns:
-        hour_gap = (candidates["start_hour"].fillna(event_dt.hour) - event_dt.hour).abs()
-        candidates["match_score"] += (1 - hour_gap.clip(0, 12) / 12) * 0.6
-    if event_dt is not None and "start_dayofweek" in candidates.columns:
-        candidates["match_score"] += (candidates["start_dayofweek"].fillna(event_dt.weekday()) == event_dt.weekday()).astype(float) * 0.4
-
-    candidates["similarity_score"] = candidates["match_score"] - candidates["distance_km"].clip(0, 20) / 8
-    nearest = candidates.sort_values(["similarity_score", "distance_km"], ascending=[False, True]).head(50)
-
-    closure_probability = float(nearest["road_closure_probability"].median())
-    flags = text_risk_flags(event["description"])
-    closure_probability += 0.08 if flags["has_blocked_word"] else 0
-    closure_probability += 0.05 if flags["has_jam_word"] else 0
-    closure_probability += 0.06 if flags["has_public_event_word"] else 0
-    closure_probability += 0.04 if event["event_type"] == "planned" else 0
-    closure_probability = max(0.01, min(0.98, closure_probability))
-
-    model2_prediction = predict_duration_with_model2(model2_bundle, feature_df, event, closure_probability)
-    duration_probs = model2_prediction["duration_probs"]
-    duration = model2_prediction["duration"]
-
-    duration_weight = {"short": 15, "medium": 35, "long": 60, "very_long": 80}.get(duration, 35)
-    description_weight = (
-        flags["has_blocked_word"] * 8
-        + flags["has_jam_word"] * 5
-        + flags["has_severity_word"] * 6
-        + flags["has_diversion_word"] * 4
-        + flags["has_public_event_word"] * 6
-    )
-    peak_weight = 5 if event_dt is not None and event_dt.hour in {8, 9, 10, 17, 18, 19, 20} else 0
-    risk_score = min(100.0, closure_probability * 48 + duration_weight * 0.48 + description_weight + peak_weight)
-    level = risk_level(risk_score)
-    playbook = recommend_manpower(level, duration, closure_probability)
-
-    return (
-        {
-            "risk_score": risk_score,
-            "risk_level": level,
-            "closure_probability": closure_probability,
-            "duration": duration,
-            "duration_probs": duration_probs,
-            "prediction_confidence": model2_prediction["prediction_confidence"],
-            "duration_model_source": model2_prediction["model_source"],
-            "text_flags": flags,
-            **playbook,
-        },
-        nearest,
-    )
-
-
-def event_input_form(df: pd.DataFrame) -> dict:
+def event_input_form(history_df: pd.DataFrame) -> dict:
     st.subheader("New Event Input")
-    st.caption("Enter the same fields available in the event feed. The app compares the scenario with similar historical events and generates a response playbook.")
+    st.caption("Input fields feed the complete chain: Model1 -> Model2 -> hotspot analytics -> similarity retrieval -> recommendation engine.")
+
+    # Constrain location selectors to historically valid combinations so hotspot mapping is meaningful.
+    location_df = (
+        history_df[["corridor", "police_station", "junction"]]
+        .dropna()
+        .astype(str)
+        .drop_duplicates()
+        .reset_index(drop=True)
+    )
 
     with st.form("event_input"):
         c1, c2, c3 = st.columns(3)
         with c1:
-            event_type = st.selectbox("event_type", sorted(df["event_type"].unique()), index=0)
-            event_cause = st.selectbox("Event cause", sorted(df["event_cause"].unique()), index=0)
-            start_date = st.date_input("start_datetime date", value=datetime.now().date())
-            start_clock = st.time_input("start_datetime time", value=time(18, 0))
+            event_type = st.selectbox("event_type", sorted(history_df["event_type"].dropna().astype(str).unique()), index=0)
+            event_cause = st.selectbox("event_cause", sorted(history_df["event_cause"].dropna().astype(str).unique()), index=0)
+            start_date = st.date_input("start_datetime (date)", value=datetime.now().date())
+            start_clock = st.time_input("start_datetime (time)", value=time(18, 0))
         with c2:
             created_date = st.date_input("created_date", value=datetime.now().date())
-            latitude = st.number_input("latitude", value=float(df["latitude"].median()), format="%.6f")
-            longitude = st.number_input("longitude", value=float(df["longitude"].median()), format="%.6f")
+            latitude = st.number_input("latitude", value=float(pd.to_numeric(history_df["latitude"], errors="coerce").median()), format="%.6f")
+            longitude = st.number_input("longitude", value=float(pd.to_numeric(history_df["longitude"], errors="coerce").median()), format="%.6f")
         with c3:
-            corridor = st.selectbox("Corridor", sorted(df["corridor"].unique()), index=0)
-            police_station = st.selectbox("Police station", sorted(df["police_station"].unique()), index=0)
-            junction = st.selectbox("junction", sorted(df["junction"].unique()), index=0)
+            corridor_options = sorted(location_df["corridor"].unique()) if not location_df.empty else sorted(history_df["corridor"].dropna().astype(str).unique())
+            corridor = st.selectbox("corridor", corridor_options, index=0)
+
+            corridor_rows = location_df[location_df["corridor"] == corridor]
+            police_options = (
+                sorted(corridor_rows["police_station"].unique())
+                if not corridor_rows.empty
+                else sorted(history_df["police_station"].dropna().astype(str).unique())
+            )
+            police_station = st.selectbox("police_station", police_options, index=0)
+
+            combo_rows = corridor_rows[corridor_rows["police_station"] == police_station]
+            junction_options = (
+                sorted(combo_rows["junction"].unique())
+                if not combo_rows.empty
+                else sorted(corridor_rows["junction"].unique()) if not corridor_rows.empty else sorted(history_df["junction"].dropna().astype(str).unique())
+            )
+            junction = st.selectbox("junction", junction_options, index=0)
 
         c4, c5 = st.columns(2)
         with c4:
-            zone = st.selectbox("zone", sorted(df["zone"].unique()), index=0)
+            zone = st.selectbox("zone", sorted(history_df["zone"].dropna().astype(str).unique()), index=0)
         with c5:
-            veh_type = st.selectbox("veh_type", sorted(df["veh_type"].unique()), index=0)
+            veh_type = st.selectbox("veh_type", sorted(history_df["veh_type"].dropna().astype(str).unique()), index=0)
 
-        description = st.text_area("description", value="Political gathering near major junction, slow traffic expected.")
-        submitted = st.form_submit_button("Generate Recommendation", type="primary")
+        description = st.text_area("description", value="Traffic obstruction reported near major junction, congestion expected.")
+        submitted = st.form_submit_button("Run Full Workflow", type="primary")
 
-    start_datetime = datetime.combine(start_date, start_clock).isoformat(timespec="minutes")
     return {
         "submitted": submitted,
         "event_type": event_type,
         "event_cause": event_cause,
-        "start_datetime": start_datetime,
+        "start_datetime": datetime.combine(start_date, start_clock).isoformat(timespec="minutes"),
         "created_date": created_date.isoformat(),
         "latitude": float(latitude),
         "longitude": float(longitude),
@@ -525,37 +186,6 @@ def show_mappls_map(points: list[dict], center: tuple[float, float], token: str 
     components.html(html, height=540, scrolling=False)
 
 
-def build_heatmap_points(df: pd.DataFrame, max_points: int) -> list[dict]:
-    heat_df = df.dropna(subset=["latitude", "longitude"]).copy()
-    heat_df = heat_df[
-        heat_df["latitude"].between(12.0, 14.0)
-        & heat_df["longitude"].between(76.0, 78.5)
-    ]
-    if "road_closure_probability" in heat_df.columns:
-        heat_df["heat_weight"] = heat_df["road_closure_probability"].clip(0.05, 1.0)
-    else:
-        heat_df["heat_weight"] = 0.5
-    if "prob_very_long" in heat_df.columns:
-        heat_df["heat_weight"] += heat_df["prob_very_long"].fillna(0) * 0.7
-    if "prob_long" in heat_df.columns:
-        heat_df["heat_weight"] += heat_df["prob_long"].fillna(0) * 0.4
-    heat_df["heat_weight"] = heat_df["heat_weight"].clip(0.05, 1.8)
-    heat_df = heat_df.sort_values("heat_weight", ascending=False).head(max_points)
-    return [
-        {
-            "latitude": float(row["latitude"]),
-            "longitude": float(row["longitude"]),
-            "weight": float(row["heat_weight"]),
-            "title": str(row.get("id", "Event")),
-            "subtitle": (
-                f"{row.get('event_cause', 'unknown')} | "
-                f"closure {float(row.get('road_closure_probability', 0)) * 100:.1f}%"
-            ),
-        }
-        for _, row in heat_df.iterrows()
-    ]
-
-
 def show_mappls_heatmap(points: list[dict], center: tuple[float, float], token: str | None) -> None:
     if not token:
         st.warning("Mappls token unavailable. Showing Streamlit fallback map.")
@@ -621,12 +251,12 @@ def show_mappls_heatmap(points: list[dict], center: tuple[float, float], token: 
             ctx.scale(ratio, ratio);
             ctx.clearRect(0, 0, width, height);
 
-            points.forEach(function(p) {{
+                        points.forEach(function(p) {{
               const px = mercatorProject(p.latitude, p.longitude, zoom, width, height);
-              const radius = 24 + Math.min(44, p.weight * 28);
-              const alpha = Math.min(0.42, 0.12 + p.weight * 0.14);
+                            const radius = (p.is_live ? 42 : 24) + Math.min(44, p.weight * 28);
+                            const alpha = Math.min(0.5, (p.is_live ? 0.22 : 0.12) + p.weight * 0.14);
               const gradient = ctx.createRadialGradient(px.x, px.y, 0, px.x, px.y, radius);
-              gradient.addColorStop(0, 'rgba(220,38,38,' + alpha + ')');
+                            gradient.addColorStop(0, p.is_live ? 'rgba(37,99,235,' + alpha + ')' : 'rgba(220,38,38,' + alpha + ')');
               gradient.addColorStop(0.35, 'rgba(249,115,22,' + (alpha * 0.7) + ')');
               gradient.addColorStop(0.68, 'rgba(253,224,71,' + (alpha * 0.34) + ')');
               gradient.addColorStop(1, 'rgba(34,197,94,0)');
@@ -680,130 +310,135 @@ def show_mappls_heatmap(points: list[dict], center: tuple[float, float], token: 
 
 def main() -> None:
     st.title("EventOps AI Command Board")
-    st.caption("Forecast event traffic impact and recommend manpower, barricading, and diversion response.")
+    st.caption("Dashboard-only UI. All model and analytics logic runs inside pipeline engine.")
 
-    if not HANDOFF_PATH.exists():
-        st.error(f"Missing input file: {HANDOFF_PATH}")
-        st.stop()
+    artifacts = load_runtime_artifacts()
+    df = artifacts.risk_playbooks
 
-    df = load_handoff_data()
-    feature_df = load_model2_feature_data()
-    model2_bundle = load_model2_bundle()
-    client_id = get_secret("CLIENT_ID")
-    client_secret = get_secret("CLIENT_SECRET")
-    token_result = get_mappls_access_token(client_id, client_secret) if client_id and client_secret else {"ok": False}
+    token_result = resolve_mappls_auth()
     access_token = token_result.get("access_token") if token_result.get("ok") else None
 
     with st.sidebar:
-        st.header("Mappls")
-        if access_token:
-            st.success("OAuth token ready")
-        else:
-            st.warning("Mappls token unavailable")
-            if token_result.get("error"):
-                st.caption(token_result["error"])
+      st.header("Mappls")
+      if access_token:
+        st.success("Map key loaded from secrets.toml")
+      else:
+        st.warning("Mappls token unavailable")
+        if token_result.get("error"):
+          st.caption(token_result["error"])
 
-    tab_input, tab_map, tab_heatmap, tab_data = st.tabs(["Input + Recommendation", "Mappls Map", "Risk Heatmap", "Historical Data"])
+    tab_input, tab_map, tab_heatmap, tab_data = st.tabs(["Input + Predictions", "Mappls Map", "Risk Heatmap", "Pipeline Data"])
 
     with tab_input:
         event = event_input_form(df)
         if event["submitted"]:
-            recommendation, nearest = build_recommendation(df, feature_df, model2_bundle, event)
-            st.session_state["latest_event"] = event
-            st.session_state["latest_recommendation"] = recommendation
-            st.session_state["latest_nearest"] = nearest
-            st.session_state.setdefault("session_event_log", []).append(flatten_recommendation(event, recommendation))
+            result = run_live_event_workflow(PROJECT_ROOT, artifacts, event)
+            st.session_state["latest_result"] = result
 
-        if "latest_recommendation" in st.session_state:
-            recommendation = st.session_state["latest_recommendation"]
-            nearest = st.session_state["latest_nearest"]
+        if "latest_result" in st.session_state:
+            result = st.session_state["latest_result"]
+            rec = result.recommendation_row.iloc[0]
+            closure_probability = float(result.model1_prediction.get("road_closure_probability", 0.0))
+            predicted_band = str(result.model2_prediction.get("predicted_duration_band", "unknown")).replace("_", " ").title()
+            prediction_confidence = float(result.model2_prediction.get("prediction_confidence", rec.get("prediction_confidence", 0.0)))
+            if prediction_confidence >= 0.70:
+              confidence_note = "High"
+            elif prediction_confidence >= 0.50:
+              confidence_note = "Moderate"
+            else:
+              confidence_note = "Low"
 
             c1, c2, c3, c4 = st.columns(4)
-            c1.metric("Risk Level", recommendation["risk_level"].upper())
-            c2.metric("Risk Score", f"{recommendation['risk_score']:.1f}/100")
-            c3.metric("Closure Probability", f"{recommendation['closure_probability'] * 100:.1f}%")
-            c4.metric("Predicted Duration", recommendation["duration"].replace("_", " ").title())
-            st.caption(f"Duration source: `{recommendation['duration_model_source']}` | confidence: `{recommendation['prediction_confidence']:.3f}`")
+            c1.metric("Risk Level", str(rec["risk_level"]).upper())
+            c2.metric("Risk Score", f"{float(rec['risk_score']):.1f}/100")
+            c3.metric("Road Closure Probability", f"{closure_probability * 100:.2f}%")
+            c4.metric("Duration Band Prediction", predicted_band)
 
-            left, right = st.columns([1, 1])
-            with left:
-                st.subheader("Recommended Deployment")
-                st.write(f"**Manpower:** {recommendation['manpower']}")
-                st.write(f"**Barricading:** {recommendation['barricading']}")
-                st.write(f"**Diversion:** {recommendation['diversion']}")
-                st.write(f"**Alerts:** {recommendation['alerts']}")
-                if st.button("Save Event + Recommendation", type="secondary"):
-                    saved_path = append_event_log(st.session_state["latest_event"], recommendation)
-                    load_event_log.clear()
-                    st.success(f"Saved locally to `{saved_path.relative_to(PROJECT_ROOT)}`")
-                    st.caption("For Vercel-style deployments, use the download button too because local filesystem writes are not durable.")
-            with right:
-                st.subheader("Duration Probability")
-                probs = pd.DataFrame(
-                    [{"duration_band": key, "probability": value} for key, value in recommendation["duration_probs"].items()]
-                )
-                st.bar_chart(probs, x="duration_band", y="probability", color="#2563eb")
-                st.write("**Text signals used**")
-                st.json(recommendation["text_flags"])
+            st.subheader("Prediction Summary")
+            s1, s2, s3 = st.columns(3)
+            s1.info(f"Prediction Confidence: {prediction_confidence * 100:.1f}% ({confidence_note})")
+            s2.info(f"Hotspot Level: {str(rec.get('hotspot_level', 'n/a')).replace('_', ' ').title()}")
+            s3.info(f"Hotspot Score: {float(rec.get('hotspot_score', 0.0)):.2f}")
 
-            st.subheader("Similar Historical Events")
+            st.subheader("Operational Response Plan")
+            manpower = str(rec.get("manpower") or "2 officers + 1 patrol unit")
+            barricading = str(rec.get("barricading") or "Local channelization with cones/signage near incident point.")
+            diversion = str(rec.get("diversion") or "Prepare local diversion if queue spills to adjacent junction.")
+            control_room = str(rec.get("control_room") or "Notify station control and monitor every 15 minutes.")
+            equipment = str(rec.get("equipment") or "reflective jackets, traffic cones")
+
+            o1, o2 = st.columns(2)
+            with o1:
+              st.markdown(f"**Manpower**\n\n{manpower}")
+              st.markdown(f"**Barricading**\n\n{barricading}")
+              st.markdown(f"**Diversion**\n\n{diversion}")
+            with o2:
+              st.markdown(f"**Control Room**\n\n{control_room}")
+              st.markdown(f"**Equipment**\n\n{equipment}")
+
+            probs = pd.DataFrame(
+                [{"duration_band": key, "probability": value} for key, value in result.model2_prediction["duration_probs"].items()]
+            )
+            st.bar_chart(probs, x="duration_band", y="probability", color="#2563eb")
+
+            st.subheader("Similar Historical Incidents")
             cols = [
                 "id",
                 "start_datetime",
-                "event_cause",
                 "event_type",
+                "event_cause",
                 "corridor",
                 "police_station",
                 "junction",
                 "zone",
                 "veh_type",
-                "duration_band",
-                "predicted_duration_band",
                 "road_closure_probability",
-                "distance_km",
+                "predicted_duration_band",
+                "risk_level",
+                "risk_score",
                 "similarity_score",
             ]
-            st.dataframe(nearest[cols].head(10), use_container_width=True, hide_index=True)
+            cols = [c for c in cols if c in result.similar_incidents.columns]
+            st.dataframe(result.similar_incidents[cols].head(10), use_container_width=True, hide_index=True)
 
-            current_row = pd.DataFrame([flatten_recommendation(st.session_state["latest_event"], recommendation)])
             st.download_button(
-                "Download This Recommendation CSV",
-                data=current_row.to_csv(index=False).encode("utf-8"),
-                file_name="eventops_recommendation.csv",
+                "Download Current Prediction CSV",
+                data=result.recommendation_row.to_csv(index=False).encode("utf-8"),
+                file_name="eventops_current_prediction.csv",
                 mime="text/csv",
             )
         else:
-            st.info("Fill the event fields and click Generate Recommendation.")
+            st.info("Fill the event fields and click Run Full Workflow.")
 
     with tab_map:
         st.subheader("Mappls Event View")
-        latest_event = st.session_state.get("latest_event")
-        latest_recommendation = st.session_state.get("latest_recommendation")
-        if latest_event and latest_recommendation:
-            level = latest_recommendation["risk_level"]
+        latest_result = st.session_state.get("latest_result")
+        if latest_result is not None:
+            rec = latest_result.recommendation_row.iloc[0]
+            event_row = latest_result.event_row.iloc[0]
+            level = str(rec["risk_level"])
             points = [
                 {
-                    "latitude": latest_event["latitude"],
-                    "longitude": latest_event["longitude"],
+                    "latitude": float(event_row["latitude"]),
+                    "longitude": float(event_row["longitude"]),
                     "title": "New input event",
-                    "subtitle": f"{level.upper()} risk | {latest_recommendation['duration']}",
+                    "subtitle": f"{level.upper()} risk | {rec['predicted_duration_band']}",
                     "color": RISK_COLORS[level],
                     "is_input": True,
                 }
             ]
-            nearest = st.session_state["latest_nearest"].head(30)
-            for _, row in nearest.iterrows():
+            for _, row in latest_result.similar_incidents.head(30).iterrows():
                 points.append(
                     {
-                        "latitude": float(row["latitude"]),
-                        "longitude": float(row["longitude"]),
+                        "latitude": float(row.get("latitude", event_row["latitude"])),
+                        "longitude": float(row.get("longitude", event_row["longitude"])),
                         "title": str(row.get("id", "Historical event")),
-                        "subtitle": f"{row.get('event_cause', 'unknown')} | {row.get('duration_band', 'unknown')}",
+                        "subtitle": f"{row.get('event_cause', 'unknown')} | {row.get('predicted_duration_band', 'unknown')}",
                         "color": "#64748b",
                         "is_input": False,
                     }
                 )
-            show_mappls_map(points, (latest_event["latitude"], latest_event["longitude"]), access_token)
+            show_mappls_map(points, (float(event_row["latitude"]), float(event_row["longitude"])), access_token)
         else:
             sample = df.sort_values("road_closure_probability", ascending=False).head(100)
             points = [
@@ -821,7 +456,7 @@ def main() -> None:
 
     with tab_heatmap:
         st.subheader("Mappls Risk Heatmap")
-        st.caption("This shows operational hotspot density across historical events. Darker/warmer areas mean higher closure probability and longer-duration likelihood.")
+        st.caption("Hotspot analytics from the pipeline are rendered on Mappls heatmap. Live event impact is overlaid in blue glow.")
         c1, c2, c3 = st.columns(3)
         with c1:
             max_points = st.slider("Heatmap events", 100, 2000, 800, step=100)
@@ -830,13 +465,18 @@ def main() -> None:
         with c3:
             selected_corridors = st.multiselect("Corridor filter", sorted(df["corridor"].unique()))
 
-        heat_df = df.copy()
-        if selected_causes:
-            heat_df = heat_df[heat_df["event_cause"].isin(selected_causes)]
-        if selected_corridors:
-            heat_df = heat_df[heat_df["corridor"].isin(selected_corridors)]
+        live_event_row = None
+        latest_result = st.session_state.get("latest_result")
+        if latest_result is not None:
+            live_event_row = latest_result.recommendation_row.iloc[0]
 
-        heat_points = build_heatmap_points(heat_df, max_points)
+        heat_points = build_heatmap_points(
+            artifacts.risk_playbooks,
+            max_points=max_points,
+            selected_causes=selected_causes,
+            selected_corridors=selected_corridors,
+            live_event_row=live_event_row,
+        )
         if heat_points:
             center = (
                 sum(point["latitude"] for point in heat_points) / len(heat_points),
@@ -855,24 +495,14 @@ def main() -> None:
             st.info("No heatmap points match the current filters.")
 
     with tab_data:
-        st.subheader("Model Handoff Data")
-        st.write(f"Rows: {len(df):,}")
+        st.subheader("Pipeline Artifacts")
+        st.write(f"Historical rows used: {len(df):,}")
         st.dataframe(df.head(200), use_container_width=True, hide_index=True)
 
-        st.subheader("Saved Recommendation Log")
-        local_log = load_event_log()
-        active_log = local_log if not local_log.empty else session_log_df()
-        if active_log.empty:
-            st.info("No saved recommendations yet. Generate a recommendation and click Save Event + Recommendation.")
-        else:
-            st.write(f"Saved rows: {len(active_log):,}")
-            st.dataframe(active_log.sort_values("logged_at", ascending=False), use_container_width=True, hide_index=True)
-            st.download_button(
-                "Download Recommendation Log CSV",
-                data=active_log.to_csv(index=False).encode("utf-8"),
-                file_name="event_recommendation_log.csv",
-                mime="text/csv",
-            )
+        st.subheader("Recommendation Summary")
+        st.dataframe(artifacts.recommendation_summary, use_container_width=True, hide_index=True)
+        st.subheader("Hotspot Summary")
+        st.dataframe(artifacts.hotspot_summary.head(200), use_container_width=True, hide_index=True)
 
 
 if __name__ == "__main__":
