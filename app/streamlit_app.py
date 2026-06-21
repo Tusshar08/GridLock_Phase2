@@ -194,7 +194,9 @@ def show_mappls_map(points: list[dict], center: tuple[float, float], token: str 
             const map = new mappls.Map('map', {{
               center: [{center[0]}, {center[1]}],
               zoom: 11,
-              zoomControl: true,
+              zoomControl: false,
+              scrollZoom: false,
+              doubleClickZoom: false,
               geolocation: false
             }});
             map.addListener('load', function() {{
@@ -315,7 +317,9 @@ def show_mappls_heatmap(points: list[dict], center: tuple[float, float], token: 
             const map = new mappls.Map('map', {{
               center: center,
               zoom: zoom,
-              zoomControl: true,
+              zoomControl: false,
+              scrollZoom: false,
+              doubleClickZoom: false,
               geolocation: false
             }});
             map.addListener('load', function() {{
