@@ -194,9 +194,9 @@ def show_mappls_map(points: list[dict], center: tuple[float, float], token: str 
             const map = new mappls.Map('map', {{
               center: [{center[0]}, {center[1]}],
               zoom: 11,
-              zoomControl: false,
-              scrollZoom: false,
-              doubleClickZoom: false,
+              zoomControl: true,
+              scrollZoom: true,
+              doubleClickZoom: true,
               geolocation: false
             }});
             map.addListener('load', function() {{
@@ -345,9 +345,9 @@ def show_mappls_heatmap(points: list[dict], center: tuple[float, float], token: 
             const map = new mappls.Map('map', {{
               center: initialCenter,
               zoom: zoom,
-              zoomControl: false,
-              scrollZoom: false,
-              doubleClickZoom: false,
+              zoomControl: true,
+              scrollZoom: true,
+              doubleClickZoom: true,
               geolocation: false
             }});
             let pendingDraw = null;
