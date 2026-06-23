@@ -265,17 +265,43 @@ def show_mappls_heatmap(points: list[dict], center: tuple[float, float], token: 
         </div>
         <script>
           const points = {json.dumps(points)};
-          const center = [{center[0]}, {center[1]}];
+          const initialCenter = [{center[0]}, {center[1]}];
           const zoom = 11;
 
-          function mercatorProject(lat, lon, zoomLevel, width, height) {{
+          function getMapCenter(map) {{
+            try {{
+              const current = map && map.getCenter ? map.getCenter() : null;
+              if (Array.isArray(current) && current.length >= 2) {{
+                return [Number(current[0]), Number(current[1])];
+              }}
+              if (current) {{
+                const lat = Number(current.lat ?? current.latitude);
+                const lng = Number(current.lng ?? current.lon ?? current.longitude);
+                if (Number.isFinite(lat) && Number.isFinite(lng)) {{
+                  return [lat, lng];
+                }}
+              }}
+            }} catch (error) {{}}
+            return initialCenter;
+          }}
+
+          function getMapZoom(map) {{
+            try {{
+              const currentZoom = map && map.getZoom ? Number(map.getZoom()) : zoom;
+              return Number.isFinite(currentZoom) ? currentZoom : zoom;
+            }} catch (error) {{
+              return zoom;
+            }}
+          }}
+
+          function mercatorProject(lat, lon, zoomLevel, width, height, mapCenter) {{
             const tileSize = 256;
             const scale = tileSize * Math.pow(2, zoomLevel);
             const lngX = (lon + 180) / 360 * scale;
             const sinLat = Math.sin(lat * Math.PI / 180);
             const latY = (0.5 - Math.log((1 + sinLat) / (1 - sinLat)) / (4 * Math.PI)) * scale;
-            const centerX = (center[1] + 180) / 360 * scale;
-            const centerSinLat = Math.sin(center[0] * Math.PI / 180);
+            const centerX = (mapCenter[1] + 180) / 360 * scale;
+            const centerSinLat = Math.sin(mapCenter[0] * Math.PI / 180);
             const centerY = (0.5 - Math.log((1 + centerSinLat) / (1 - centerSinLat)) / (4 * Math.PI)) * scale;
             return {{
               x: width / 2 + (lngX - centerX),
@@ -283,12 +309,14 @@ def show_mappls_heatmap(points: list[dict], center: tuple[float, float], token: 
             }};
           }}
 
-          function drawHeatmap() {{
+          function drawHeatmap(map) {{
             const canvas = document.getElementById('heat-canvas');
             const wrap = document.getElementById('map-wrap');
             const ratio = window.devicePixelRatio || 1;
             const width = wrap.clientWidth;
             const height = wrap.clientHeight;
+            const mapCenter = getMapCenter(map);
+            const mapZoom = getMapZoom(map);
             canvas.width = width * ratio;
             canvas.height = height * ratio;
             canvas.style.width = width + 'px';
@@ -298,7 +326,7 @@ def show_mappls_heatmap(points: list[dict], center: tuple[float, float], token: 
             ctx.clearRect(0, 0, width, height);
 
                         points.forEach(function(p) {{
-              const px = mercatorProject(p.latitude, p.longitude, zoom, width, height);
+              const px = mercatorProject(p.latitude, p.longitude, mapZoom, width, height, mapCenter);
                             const radius = (p.is_live ? 42 : 24) + Math.min(44, p.weight * 28);
                             const alpha = Math.min(0.5, (p.is_live ? 0.22 : 0.12) + p.weight * 0.14);
               const gradient = ctx.createRadialGradient(px.x, px.y, 0, px.x, px.y, radius);
@@ -315,15 +343,25 @@ def show_mappls_heatmap(points: list[dict], center: tuple[float, float], token: 
 
           window.initMap = function() {{
             const map = new mappls.Map('map', {{
-              center: center,
+              center: initialCenter,
               zoom: zoom,
               zoomControl: false,
               scrollZoom: false,
               doubleClickZoom: false,
               geolocation: false
             }});
+            let pendingDraw = null;
+            function scheduleHeatmapDraw() {{
+              if (pendingDraw) {{
+                window.cancelAnimationFrame(pendingDraw);
+              }}
+              pendingDraw = window.requestAnimationFrame(function() {{
+                drawHeatmap(map);
+                pendingDraw = null;
+              }});
+            }}
             map.addListener('load', function() {{
-              drawHeatmap();
+              scheduleHeatmapDraw();
               points.slice(0, 60).forEach(function(p) {{
                 const marker = new mappls.Marker({{
                   map: map,
@@ -343,7 +381,12 @@ def show_mappls_heatmap(points: list[dict], center: tuple[float, float], token: 
                 }});
               }});
             }});
-            window.addEventListener('resize', drawHeatmap);
+            ['move', 'drag', 'dragend', 'zoom', 'zoomend'].forEach(function(eventName) {{
+              try {{
+                map.addListener(eventName, scheduleHeatmapDraw);
+              }} catch (error) {{}}
+            }});
+            window.addEventListener('resize', scheduleHeatmapDraw);
           }};
 
           const sdk = document.createElement('script');
